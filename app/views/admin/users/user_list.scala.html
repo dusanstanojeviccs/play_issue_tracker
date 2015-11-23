@@ -1,0 +1,26 @@
+@(message: String, adminList: List[Admin])
+
+@main("Admin - Users") {
+
+	<table>
+	<thead>
+		<tr>
+			<th>id</th>
+			<th>name</th>
+			<th>pass</th>
+		</tr>
+	</thead>
+	<tbody>
+    @for(admin <- adminList) {
+    	<tr>
+    		<td>@admin.getId</td>
+    		<td>@admin.getUsername</td>
+    		<td>@admin.getPassword</td>
+    	</tr>
+    }
+    </tbody>
+    </table>
+
+    <!-- PRIMER ZA DODAVANJE EKSTERNOG FILE-a -->
+    @_add_user()
+}
