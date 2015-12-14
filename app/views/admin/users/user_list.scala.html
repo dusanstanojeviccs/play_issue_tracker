@@ -1,29 +1,69 @@
-@(message: String, adminList: List[Admin])
+@(adminList: List[Admin], developerList: List[Developer],issueList: List[Issue], projectList: List[Project], qaUserList: List[QAUser])
+
 @import views.html.admin.admin_navbar
+@import play.Play
 
 @main("Admin - Users") {
 	@admin_navbar()
 } {
-                
-      	<table>
-					<thead>
-						<tr>
-							<th>id</th>
-							<th>name</th>
-							<th>pass</th>
-						</tr>
-					</thead>
-					<tbody>
-				    @for(admin <- adminList) {
-				    	<tr>
-				    		<td>@admin.getId</td>
-				    		<td>@admin.getUsername</td>
-				    		<td>@admin.getPassword</td>
-				    	</tr>
-				    }
-			    </tbody>
-		    </table>
+<script>
+	var Routes = {
+		saveUser: "@controllers.routes.Admins.saveUser()"
+	};
+</script>
+
+<div ng-controller="UserController">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+	          <div class="box">
+	            <div class="box-header">
+	              <h3 class="box-title">Users</h3>
+	            </div>
+	            <!-- /.box-header -->
+	            <div class="box-body">
+	                <div><div class="btn btn-primary pull-right" style="margin-bottom:15px" data-toggle="modal" data-target="#add-user-modal" data-add-user>Add user</div><div class="clearfix"></div></div>
+	                <table id="datatable" class="table table-bordered table-striped clear clickable">
+	                	<thead>
+							<tr>
+								<th>Type</th>
+								<th>Name</th>
+							</tr>
+						</thead>
+						<tbody>
+					    @for(admin <- adminList) {
+					    	<tr data-id="@admin.getId" data-type="admin">
+					    		<td data-type>Admin</td>
+					    		<td data-username>@admin.getUsername</td>
+					    	</tr>
+					    }
+					    @for(developer <- developerList) {
+					    	<tr data-id="@developer.getId" data-type="Developer">
+					    		<td data-type>Developer</td>
+					    		<td data-username>@developer.getUsername</td>
+					    	</tr>
+					    }
+					    @for(qa <- qaUserList) {
+					    	<tr data-id="@qa.getId" data-type="Tester">
+					    		<td data-type>Tester</td>
+					    		<td data-username>@qa.getUsername</td>
+					    	</tr>
+					    }
+					    </tbody>
+					</table>
+	            </div>
+	          </div>
+	          <!-- /.box -->
+	        </div>
+	    </div>
+    </section>
+  	
 
     <!-- PRIMER ZA DODAVANJE EKSTERNOG FILE-a -->
     @_add_user()
+</div>
+} {
+	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
+} {
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/users.js")"></script>
 }

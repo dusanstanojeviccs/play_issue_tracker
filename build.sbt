@@ -6,6 +6,16 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.11.6"
 
+includeFilter in (Assets, LessKeys.less) := "*.less"
+
+excludeFilter in (Assets, LessKeys.less) := "_*.less"
+
+LessKeys.compress in Assets := true
+
+LessKeys.sourceMap in Assets := false
+
+LessKeys.sourceMapFileInline in Assets := true
+
 libraryDependencies ++= Seq(
   javaJdbc,
   cache,

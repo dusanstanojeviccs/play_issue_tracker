@@ -45,6 +45,9 @@ public class Admin {
 
         return adminList;
 	}
+    // public long insert(Connection conn, Admin admin) {
+        
+    // }
 
     public long getId() {
         return id;
