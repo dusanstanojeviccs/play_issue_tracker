@@ -2,7 +2,7 @@ app.controller('UserController', function($scope, $http) {
     $scope.user = {};
     $scope.saveUser = function() {
         $http.post(Routes.saveUser, JSON.stringify($scope.user)).success(function(data, status) {
-            alert("WOLOWLO");
+            alert(data);
         }).error(function(data, status) {
 			alert("WOLOWLO_EROR");
         });
