@@ -45,9 +45,25 @@ public class Admin {
 
         return adminList;
 	}
-    // public long insert(Connection conn, Admin admin) {
-        
-    // }
+    public static Admin load(Connection conn, String username, String password) throws SQLException {
+        String query = "SELECT * FROM admins where username = ? and password = ?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+        int i = 1;
+        statement.setString(i++, username);
+        statement.setString(i++, password);
+
+        List<Admin> adminList = new LinkedList<Admin>();
+
+        DSDB.executeAndParse(statement, rs -> {
+            Admin admin = new Admin();
+            admin.parse(rs);
+
+            adminList.add(admin);
+        });
+
+        return adminList.isEmpty()?null:adminList.get(0);
+    }
 
     public long getId() {
         return id;

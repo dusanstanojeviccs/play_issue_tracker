@@ -25,12 +25,14 @@ public class Application extends Controller {
 	    if (form.data().size() != 2) {
 	    	result[0] = ok(index.render(true));    
 	    } else {
-	    	if (form.get("username").equals("admin")
-	    		&& form.get("password").equals("admin"))
-	    		result[0] = redirect(controllers.routes.Admins.users());
-	        else
-	        	result[0] = ok(index.render(true));
-	    }
+            DSDB.withConnection(conn -> {
+                if (Admin.load(conn, form.get("username"), form.get("password"))!=null)
+                    result[0] = redirect(controllers.routes.Admins.users());
+                else
+                    result[0] = ok(index.render(true));
+        
+            });
+    	}
 		
     	
         return result[0];
