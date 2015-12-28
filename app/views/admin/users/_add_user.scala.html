@@ -9,28 +9,30 @@
         <h4 ng-if="user.id!=0" class="modal-title">Update User</h4>
       </div>
       <div class="modal-body">
-    	<div class="form-group">
-    		<div class="">
-    			<label>Type</label>
-    			<select class="form-control" ng-disabled="user.id!=0" ng-model="user.type">
-    				<option value="admin">Admin</option>
-    				<option value="developer">Developer</option>
-    				<option value="tester">Tester</option>
-    			</select>
-    		</div>
-    	</div>
-    	<div class="form-group">
-    		<div class="">
-    			<label>Username</label>
-    			<input type="text" ng-model="user.username" class="form-control">
-    		</div>
-    	</div>
-    	<div class="form-group">
-    		<div class="">
-    			<label>Password</label>
-    			<input type="password" ng-model="user.password" class="form-control">
-    		</div>
-    	</div>
+        <form>
+        	<div class="form-group">
+        		<div class="">
+        			<label>Type</label>
+        			<select class="form-control" ng-disabled="user.id!=0" ng-model="user.type">
+        				<option value="admin">Admin</option>
+        				<option value="developer">Developer</option>
+        				<option value="tester">Tester</option>
+        			</select>
+        		</div>
+        	</div>
+        	<div class="form-group">
+        		<div class="">
+        			<label>Username</label>
+        			<input type="text" ng-model="user.username" class="form-control">
+        		</div>
+        	</div>
+        	<div class="form-group">
+        		<div class="">
+        			<label>Password</label>
+        			<input type="password" ng-model="user.password" class="form-control">
+        		</div>
+        	</div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

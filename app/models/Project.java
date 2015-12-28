@@ -70,22 +70,6 @@ public class Project {
         return qaList;
 	}
 
-    public static long insert(Connection conn, Project project) throws SQLException {
-        String query = "INSERT INTO `projects`(id, `name`) VALUES (null, ?)";
-
-        PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        int i = 1;
-        statement.setString(i++, project.name);
-
-        long[] toRet = {0l};
-
-        DSDB.executeAndParse(statement, rs -> {
-            toRet[0] = rs.getLong(1);
-        });
-
-        return toRet[0];
-    }
-
 	public List<Issue> getIssues(Connection conn) throws SQLException {
         String query = "SELECT * FROM issues WHERE project_id=?";
 

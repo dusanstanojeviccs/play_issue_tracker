@@ -5,7 +5,6 @@ import play.mvc.*;
 import java.util.*;
 import models.*;
 import views.html.admin.users.user_list;
-import views.html.admin.projects.project_list;
 
 public class Admins extends Controller {
 	public Result users() {
@@ -29,14 +28,7 @@ public class Admins extends Controller {
     }
 
     public Result projects() {
-    	Result[] result = {badRequest()};
-        DSDB.withConnection(conn -> {
-            List<Project> projectList = Project.load(conn);
-
-            result[0] = ok(project_list.render( 
-                projectList));
-        });
-        return result[0];
+    	return ok("Yo");
     }
 
     public Result updateIssue() {
@@ -51,23 +43,7 @@ public class Admins extends Controller {
         public String username;
         public String type;
     }
-
     public Result saveUser() {
-        return ok("Successfully you add users");
-    }
-
-    public static class ProjectSaveRequest {
-        public Long id;
-        public String name;
-    }
-
-/* OVDE JE PROBLEM */
-    public Result saveProject() {
-        DSDB.withConnection(conn -> {
-            Project p = new Project();
-            p.setName("YOLO");
-            p.setId (Project.insert(conn, p));
-        });
-        return ok("YOLO");
+    	return ok("Yo");
     }
 }
