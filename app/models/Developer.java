@@ -30,6 +30,24 @@ public class Developer {
 
         return developerList;
 	}
+    public static Developer load(Connection conn, String username, String password)throws SQLException{
+        String query = "SELECT * FROM developers where username = ? and password = ?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+        int i = 1;
+        statement.setString(i++, username);
+        statement.setString(i++, password);
+
+        List<Developer> developerList = new LinkedList<Developer>();
+
+        DSDB.executeAndParse(statement, rs ->{
+            Developer developer = new Developer();
+            developer.parse(rs);
+
+            developerList.add(developer);
+        });
+        return developerList.isEmpty()?null:developerList.get(0);
+    }
 
     public long getId() {
         return id;

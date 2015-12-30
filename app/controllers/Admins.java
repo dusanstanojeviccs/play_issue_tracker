@@ -6,6 +6,7 @@ import java.util.*;
 import models.*;
 import views.html.admin.users.user_list;
 import views.html.admin.projects.project_list;
+import views.html.admin.issues.issue_list;
 
 public class Admins extends Controller {
 	public Result users() {
@@ -25,7 +26,13 @@ public class Admins extends Controller {
     }
 
     public Result issues() {
-    	return ok("Yo");
+    	Result[] result = {badRequest()};
+        DSDB.withConnection(conn -> {
+            List<Issue> issueList = Issue.load(conn);
+            result[0] = ok(issue_list.render( 
+                issueList));
+        });
+        return result[0];
     }
 
     public Result projects() {

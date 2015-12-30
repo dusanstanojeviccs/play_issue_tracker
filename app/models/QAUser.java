@@ -55,4 +55,7 @@ public class QAUser {
     public void setPassword(String password) {
         this.password = password;
     }
+    public String toString() {
+        return this.username;
+    }
 }

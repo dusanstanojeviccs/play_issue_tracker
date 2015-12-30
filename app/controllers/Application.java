@@ -28,6 +28,8 @@ public class Application extends Controller {
             DSDB.withConnection(conn -> {
                 if (Admin.load(conn, form.get("username"), form.get("password"))!=null)
                     result[0] = redirect(controllers.routes.Admins.users());
+                else if(Developer.load(conn, form.get("username"), form.get("password"))!=null)
+                    result[0] = redirect(controllers.routes.Admins.users());
                 else
                     result[0] = ok(index.render(true));
         

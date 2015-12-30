@@ -1,0 +1,62 @@
+@(issueList: List[Issue])
+
+@import views.html.admin.admin_navbar
+@import play.Play
+
+@main("Admin - Issues") {
+	@admin_navbar(Com.ADMIN_PAGE_NAMES(2))
+} {
+<script>
+	var Routes = {
+		saveProject: "@controllers.routes.Admins.saveProject()"
+	};
+</script>
+
+<div ng-controller="IssueController">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+	          <div class="box">
+	            <div class="box-header">
+	              <h3 class="box-title">Issues</h3>
+	            </div>
+	            <!-- /.box-header -->
+	            <div class="box-body">
+	                <div><div class="btn btn-primary pull-right" style="margin-bottom:15px" data-toggle="modal" data-target="#add-issue-modal" data-add-project>Add Issue</div><div class="clearfix"></div></div>
+	                <table id="datatable" class="table table-bordered table-striped clear clickable">
+	                	<thead>
+							<tr >
+								<th>Id</th>
+								<th>PostedBy</th>
+								<th>Title</th>
+								<th>Text</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+					    @for(issue <- issueList) {
+					    	<tr data-id="@issue.getId" data-toggle="modal" data-target="#add-issue-modal" data-add-project>
+					    		<td data-id>@issue.getId</td>
+					    		<td data-postedBy>@issue.getPostedBy</td> 
+					    		<td data-title>@issue.getTitle</td>
+					    		<td data-text>@issue.getText</td>
+					    		<td data-status>@issue.getStatus</td>
+					    	</tr>
+					    }
+					    </tbody>
+					</table>
+	            </div>
+	          </div>
+	          <!-- /.box -->
+	        </div>
+	    </div>
+    </section>
+  	
+    <!-- PRIMER ZA DODAVANJE EKSTERNOG FILE-a -->
+    @_add_issue()
+</div>
+} {
+	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
+} {
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>
+}
