@@ -1,37 +1,46 @@
 app.controller('IssueController', function($scope, $http) {
     $scope.issue = {};
+    $scope.error = "";
+
     $scope.saveIssue = function() {
-        $http.post(Routes.saveIssue, JSON.stringify($scope.issue)).success(function(data, status) {
-            alert(data);
+        $http.post(Routes.saveProject, JSON.stringify($scope.issue)).success(function(data, status) {
+            if (!isNaN(Number(data)) && Number(data)!==0) {
+				if (isNaN(Number($scope.project.id)))
+					$("tbody").append("<tr><td data-id>"+data+"</td><td data-name>"+$scope.project.name+"</td></tr>");
+				else
+					$("tbody").find("[data-id]").each(function(e) {
+						if ($(this).html()===$scope.project.id)
+							$(this).parent().find("[data-name]").html($scope.project.name);
+					});
+            } else {
+				$scope.error = "Couldn't save project";
+            }
         }).error(function(data, status) {
-			alert("WOLOWLO_EROR");
+			$scope.error = "Couldn't save project";
         });
     };
 
     $(function() {
 		$("[data-add-issue]").click(function() {
 			$scope.issue = {
-				title: "ko",
-				text: "dsa",
-				status: "da",
-				id: 0
+				name: ""
 			};
 			$scope.$apply();
 		});
 
 
-		$("tr[data-id]").click(function() {
-			$scope.issue = {
-				/*postedBy: $(this).find("[data-postedBy}").html(),*/
-				/*id: $(this).find("[data-id]").html()*/
-				title: $(this).find("[data-title]").html(),
-				text: $(this).find("[data-text]").html(),
-				status: $(this).find("[data-status]").html(),
-				id: $(this).attr("data-id")
-			};
-			
-			$scope.$apply();
-			$("#add-issue-modal").modal("show");
+		$("tr").click(function() {
+			if ($(this).find(".dataTables_empty").length) {
+
+			} else {
+				$scope.issue = {
+					name: $(this).find("[data-name]").html(),
+					id: $(this).find("[data-id]").html()
+				};
+				
+				$scope.$apply();
+				$("#add-issue-modal").modal("show");
+			}
 		});
 	});
 });

@@ -7,6 +7,7 @@ import play.db.DB;
 
 public class Issue {
 	private long id;
+    private long projectId;
 	private long postedBy;
 	private String title;
 	private String text;
@@ -18,6 +19,7 @@ public class Issue {
         this.title = rs.getString("title");
         this.text = rs.getString("text");
         this.status = rs.getString("status");
+        this.projectId = rs.getLong("project_id");
     }
 
 	public static List<Issue> load(Connection conn) throws SQLException {
@@ -35,32 +37,68 @@ public class Issue {
 
         return issueList;
 	}
+    public static Issue loadById(Connection conn, long id) throws SQLException {
+        String query = "SELECT * FROM issues WHERE id=?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setLong(1, id);
+        List<Issue> issueList = new LinkedList<Issue>();
+
+        DSDB.executeAndParse(statement, rs -> {
+            Issue issue = new Issue();
+            issue.parse(rs);
+            issueList.add(issue);
+        });
+
+        return issueList.get(0);
+    }
+
+
+    public static long insert(Connection conn, Issue issue) throws SQLException {
+        String query = "INSERT INTO `issues`(id, `posted_by`, `title`, `text`, `status`, project_id) VALUES (null, ?, ?, ?, ?, ?)";
+
+        PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        int i = 1;
+        statement.setLong(i++, issue.postedBy);
+        statement.setString(i++, issue.title);
+        statement.setString(i++, issue.text);
+        statement.setString(i++, issue.status);
+        statement.setLong(i++, issue.projectId);
+        statement.executeUpdate();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if (resultSet.next())
+            return resultSet.getLong(1);
+
+        return 0l;
+    }
+
+    public static void update(Connection conn, Issue issue) throws SQLException {
+        String query = "UPDATE `issues` SET `posted_by`=?, `title`=?, `text`=?, `status`=?, project_id=? WHERE id = ?)";
+
+
+        PreparedStatement statement = conn.prepareStatement(query);
+
+        int i = 1;
+        statement.setLong(i++, issue.postedBy);
+        statement.setString(i++, issue.title);
+        statement.setString(i++, issue.text);
+        statement.setString(i++, issue.status);
+        statement.setLong(i++, issue.projectId);
+        statement.setLong(i++, issue.id);
+
+        statement.execute();
+    }
 
     public long getId() {
         return id;
     }
 
-    public QAUser getPostedBy() throws SQLException {
-        return getQAUser(this.postedBy);
+    public long getPostedBy() throws SQLException {
+        return this.postedBy;
     }
 
-    public QAUser getQAUser (long id) throws SQLException {
-        Connection conn = DB.getConnection();
-        QAUser qa = new QAUser();
-        String query = "SELECT * FROM qa_users WHERE id=?";
-
-        PreparedStatement st = conn.prepareStatement(query);
-        st.setLong(1, id);
-
-        ResultSet rs = st.executeQuery();
-
-        while (rs.next()) {
-            qa.setId(rs.getLong("id"));
-            qa.setUsername(rs.getString("username"));
-            qa.setPassword(rs.getString("password"));
-        }
-        conn.close();
-        return qa;
+    public QAUser getQAUser (Connection conn) throws SQLException {
+        return QAUser.loadById(conn, postedBy);
     }
     
     public String getTitle() {
@@ -75,6 +113,9 @@ public class Issue {
 
     public void setId(long id) {
         this.id = id;
+    }
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
     }
     public void setPostedBy(long postedBy){
         this.postedBy = postedBy;

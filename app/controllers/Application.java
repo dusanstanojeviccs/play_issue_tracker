@@ -8,6 +8,8 @@ import models.*;
 import play.data.DynamicForm;
 import play.data.Form;
 
+import static play.mvc.Controller.session;
+
 public class Application extends Controller {
 
     public Result index() {
@@ -15,6 +17,7 @@ public class Application extends Controller {
     }
 
     public Result logout() {
+        session().clear();
     	return redirect(controllers.routes.Application.index());	
     }
 
@@ -26,12 +29,24 @@ public class Application extends Controller {
 	    	result[0] = ok(index.render(true));    
 	    } else {
             DSDB.withConnection(conn -> {
-                if (Admin.load(conn, form.get("username"), form.get("password"))!=null)
+                Admin loadedAdmin = null;
+                QAUser loadedQA = null;
+                Developer loadedDeveloper = null;
+                if ((loadedAdmin = Admin.load(conn, form.get("username"), form.get("password")))!=null) {
+                    session("admin_loggedin", "yes");
+                    session("user_id", String.valueOf(loadedAdmin.getId()));
                     result[0] = redirect(controllers.routes.Admins.users());
-                else if(Developer.load(conn, form.get("username"), form.get("password"))!=null)
-                    result[0] = redirect(controllers.routes.Admins.users());
-                else
+                } else if ((loadedDeveloper = Developer.load(conn, form.get("username"), form.get("password")))!=null) {
+                    session("developer_loggedin", "yes");
+                    session("user_id", String.valueOf(loadedDeveloper.getId()));
+                    result[0] = redirect(controllers.routes.Developers.viewProjects());
+                } else if ((loadedQA = QAUser.load(conn, form.get("username"), form.get("password")))!=null) {
+                    session("qa_loggedin", "yes");
+                    session("user_id", String.valueOf(loadedQA.getId()));
+                    result[0] = redirect(controllers.routes.QAUsers.viewProjects());
+                } else {
                     result[0] = ok(index.render(true));
+                }
         
             });
     	}

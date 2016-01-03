@@ -32,6 +32,73 @@ public class QAUser {
         return qaList;
 	}
 
+    public static QAUser load(Connection conn, String username, String password)throws SQLException{
+        String query = "SELECT * FROM qa_users where username = ? and password = ?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+        int i = 1;
+        statement.setString(i++, username);
+        statement.setString(i++, password);
+
+        List<QAUser> qaList = new LinkedList<QAUser>();
+
+        DSDB.executeAndParse(statement, rs ->{
+            QAUser qa = new QAUser();
+            qa.parse(rs);
+
+            qaList.add(qa);
+        });
+        return qaList.isEmpty()?null:qaList.get(0);
+    }
+    public static QAUser loadById(Connection conn, long id) throws SQLException {
+        String query = "SELECT * FROM admins where id = ?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+        int i = 1;
+        statement.setLong(i++, id);
+
+        List<QAUser> qaList = new LinkedList<QAUser>();
+
+        DSDB.executeAndParse(statement, rs -> {
+            QAUser qa = new QAUser();
+            qa.parse(rs);
+
+            qaList.add(qa);
+        });
+
+        return qaList.isEmpty()?null:qaList.get(0);
+    }
+
+    public static long insert(Connection conn, QAUser qa) throws SQLException {
+        String query = "INSERT INTO `qa_users`(id, `username`, `password`) VALUES (null, ?, ?)";
+
+        PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        int i = 1;
+        statement.setString(i++, qa.username);
+        statement.setString(i++, qa.password);
+
+        statement.executeUpdate();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if (resultSet.next())
+            return resultSet.getLong(1);
+
+        return 0l;
+    }
+
+    public static void update(Connection conn, QAUser qa) throws SQLException {
+        final String query = "UPDATE `qa_users` SET `username`=?, password=? WHERE id=?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+
+        int i = 1;
+        statement.setString(i++, qa.username);
+        statement.setString(i++, qa.password);
+        statement.setLong(i++, qa.id);
+
+        statement.execute();
+    }
+
+
     public long getId() {
         return id;
     }

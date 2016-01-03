@@ -8,6 +8,13 @@ import views.html.admin.users.user_list;
 import views.html.admin.projects.project_list;
 import views.html.admin.issues.issue_list;
 
+import play.libs.Json;
+
+import play.mvc.Security;
+
+import controllers.AdminSecurity;
+
+@Security.Authenticated(AdminSecurity.class)
 public class Admins extends Controller {
 	public Result users() {
     	Result[] result = {badRequest()};
@@ -45,22 +52,85 @@ public class Admins extends Controller {
         });
         return result[0];
     }
-
-    public Result updateIssue() {
-    	return ok("Yo");
+    public static class IssueSaveRequest {
+        private Long id;
+        private String title;
+        private String text;
+        private String status;
     }
 
-    public Result updateProject() {
-    	return ok("Yo");
+
+    public Result saveIssue() {
+    	IssueSaveRequest post = Json.fromJson(request().body().asJson(), IssueSaveRequest.class);
+
+        Result[] results = {badRequest()};
+
+        DSDB.withConnection(conn -> {
+            Issue p = new Issue();
+            p.setTitle(post.title);
+            p.setText(post.text);
+            p.setStatus(post.status);
+            if (post.id!=null && post.id!=0) {
+                p.setId(post.id);
+                Issue.update(conn, p);
+            } else {
+                p.setId(Issue.insert(conn, p));    
+            }
+            results[0] = ok(p.getId()+"");
+        });
+        return results[0];
     }
+
     public static class UserSaveRequest {
         public Long id;
         public String username;
+        public String password;
         public String type;
     }
 
     public Result saveUser() {
-        return ok("Successfully you add users");
+        UserSaveRequest post = Json.fromJson(request().body().asJson(), UserSaveRequest.class);
+
+        Result[] results = {badRequest()};
+
+        DSDB.withConnection(conn -> {
+            if (post.type.equals("admin")) {
+                Admin u = new Admin();
+                u.setId(post.id);
+                u.setUsername(post.username);
+                u.setPassword(post.password);
+                if (post.id!=null && post.id!=0) {
+                    Admin.update(conn, u);
+                } else {
+                    u.setId(Admin.insert(conn, u));    
+                }
+                results[0] = ok(u.getId()+"");
+            } else if (post.type.equals("developer")) {
+                Developer u = new Developer();
+                u.setId(post.id);
+                u.setUsername(post.username);
+                u.setPassword(post.password);
+                if (post.id!=null && post.id!=0) {
+                    Developer.update(conn, u);
+                } else {
+                    u.setId(Developer.insert(conn, u));    
+                }
+                results[0] = ok(u.getId()+"");
+            } else if (post.type.equals("tester")) {
+                QAUser u = new QAUser();
+                u.setId(post.id);
+                u.setUsername(post.username);
+                u.setPassword(post.password);
+                if (post.id!=null && post.id!=0) {
+
+                    QAUser.update(conn, u);
+                } else {
+                    u.setId(QAUser.insert(conn, u));    
+                }
+                results[0] = ok(u.getId()+"");
+            }
+        });
+        return results[0];
     }
 
     public static class ProjectSaveRequest {
@@ -70,11 +140,21 @@ public class Admins extends Controller {
 
 /* OVDE JE PROBLEM */
     public Result saveProject() {
+        ProjectSaveRequest post = Json.fromJson(request().body().asJson(), ProjectSaveRequest.class);
+
+        Result[] results = {badRequest()};
+
         DSDB.withConnection(conn -> {
             Project p = new Project();
-            p.setName("YOLO");
-            p.setId (Project.insert(conn, p));
+            p.setName(post.name);
+            if (post.id!=null && post.id!=0) {
+                p.setId(post.id);
+                Project.update(conn, p);
+            } else {
+                p.setId(Project.insert(conn, p));    
+            }
+            results[0] = ok(p.getId()+"");
         });
-        return ok("YOLO");
+        return results[0];
     }
 }

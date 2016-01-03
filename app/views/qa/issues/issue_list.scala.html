@@ -8,7 +8,7 @@
 } {
 <script>
 	var Routes = {
-		saveIssue: "@controllers.routes.Admins.saveIssue()"
+		saveProject: "@controllers.routes.Admins.saveProject()"
 	};
 </script>
 
@@ -22,6 +22,7 @@
 	            </div>
 	            <!-- /.box-header -->
 	            <div class="box-body">
+	                <div><div class="btn btn-primary pull-right" style="margin-bottom:15px" data-toggle="modal" data-target="#add-issue-modal" data-add-project>Add Issue</div><div class="clearfix"></div></div>
 	                <table id="datatable" class="table table-bordered table-striped clear clickable">
 	                	<thead>
 							<tr >
@@ -34,7 +35,7 @@
 						</thead>
 						<tbody>
 					    @for(issue <- issueList) {
-					    	<tr>
+					    	<tr data-id="@issue.getId" data-toggle="modal" data-target="#add-issue-modal" data-add-project>
 					    		<td data-id>@issue.getId</td>
 					    		<td data-postedBy>@issue.getPostedBy</td> 
 					    		<td data-title>@issue.getTitle</td>
@@ -50,12 +51,9 @@
 	        </div>
 	    </div>
     </section>
-  	
-    <!-- PRIMER ZA DODAVANJE EKSTERNOG FILE-a -->
-    @_add_issue()
 </div>
 } {
 	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
 } {
-	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/issue.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>
 }

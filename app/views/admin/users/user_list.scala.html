@@ -28,6 +28,7 @@
 							<tr>
 								<th>Type</th>
 								<th>Name</th>
+								<th>Password</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -35,18 +36,21 @@
 					    	<tr data-id="@admin.getId" data-type="admin">
 					    		<td data-type>Admin</td>
 					    		<td data-username>@admin.getUsername</td>
+					    		<td data-password>@admin.getPassword</td>
 					    	</tr>
 					    }
 					    @for(developer <- developerList) {
-					    	<tr data-id="@developer.getId" data-type="Developer">
+					    	<tr data-id="@developer.getId" data-type="developer">
 					    		<td data-type>Developer</td>
 					    		<td data-username>@developer.getUsername</td>
+					    		<td data-password>@developer.getPassword</td>
 					    	</tr>
 					    }
 					    @for(qa <- qaUserList) {
-					    	<tr data-id="@qa.getId" data-type="Tester">
+					    	<tr data-id="@qa.getId" data-type="tester">
 					    		<td data-type>Tester</td>
 					    		<td data-username>@qa.getUsername</td>
+					    		<td data-password>@qa.getPassword</td>
 					    	</tr>
 					    }
 					    </tbody>

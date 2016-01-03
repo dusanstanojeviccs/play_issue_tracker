@@ -76,14 +76,25 @@ public class Project {
         PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         int i = 1;
         statement.setString(i++, project.name);
+        statement.executeUpdate();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if (resultSet.next())
+            return resultSet.getLong(1);
 
-        long[] toRet = {0l};
+        return 0l;
+    }
 
-        DSDB.executeAndParse(statement, rs -> {
-            toRet[0] = rs.getLong(1);
-        });
+    public static void update(Connection conn, Project project) throws SQLException {
+        final String query = "UPDATE `projects` SET `name`=? WHERE id=?";
 
-        return toRet[0];
+
+        PreparedStatement statement = conn.prepareStatement(query);
+
+        int i = 1;
+        statement.setString(i++, project.name);
+        statement.setLong(i++, project.id);
+
+        statement.execute();
     }
 
 	public List<Issue> getIssues(Connection conn) throws SQLException {

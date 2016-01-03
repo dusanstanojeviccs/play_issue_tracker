@@ -1,10 +1,10 @@
 @(projectList: List[Project])
 
-@import views.html.admin.admin_navbar
+@import views.html.developer.developer_navbar
 @import play.Play
 
-@main("Admin - Projects") {
-	@admin_navbar(Com.ADMIN_PAGE_NAMES(1))
+@main("Developer - Projects") {
+	@developer_navbar(Com.DEVELOPER_PAGE_NAMES(0))
 } {
 <script>
 	var Routes = {
@@ -13,8 +13,6 @@
 </script>
 
 <div ng-controller="ProjectController">
-	<div ng-if="error!=''">{{error}}</div>
-
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
@@ -34,7 +32,6 @@
 						</thead>
 						<tbody>
 					    @for(project <- projectList) {
-					    	<tr>
 					    		<td data-id>@project.getId</td>
 					    		<td data-name>@project.getName</td>
 					    	</tr>
@@ -48,8 +45,6 @@
 	    </div>
     </section>
   	
-    <!-- PRIMER ZA DODAVANJE EKSTERNOG FILE-a -->
-    @_add_projects()
 </div>
 } {
 	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">

@@ -1,45 +1,39 @@
-@(issueList: List[Issue])
+@(projectList: List[Project])
 
 @import views.html.admin.admin_navbar
 @import play.Play
 
-@main("Admin - Issues") {
-	@admin_navbar(Com.ADMIN_PAGE_NAMES(2))
+@main("Admin - Projects") {
+	@admin_navbar(Com.ADMIN_PAGE_NAMES(1))
 } {
 <script>
 	var Routes = {
-		saveIssue: "@controllers.routes.Admins.saveIssue()"
+		saveProject: "@controllers.routes.Admins.saveProject()"
 	};
 </script>
 
-<div ng-controller="IssueController">
+<div ng-controller="ProjectController">
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
 	          <div class="box">
 	            <div class="box-header">
-	              <h3 class="box-title">Issues</h3>
+	              <h3 class="box-title">Projects</h3>
 	            </div>
 	            <!-- /.box-header -->
 	            <div class="box-body">
+	                <div><div class="btn btn-primary pull-right" style="margin-bottom:15px" data-toggle="modal" data-target="#add-project-modal" data-add-project>Add project</div><div class="clearfix"></div></div>
 	                <table id="datatable" class="table table-bordered table-striped clear clickable">
 	                	<thead>
-							<tr >
+							<tr>
 								<th>Id</th>
-								<th>PostedBy</th>
-								<th>Title</th>
-								<th>Text</th>
-								<th>Status</th>
+								<th>Name</th>
 							</tr>
 						</thead>
 						<tbody>
-					    @for(issue <- issueList) {
-					    	<tr>
-					    		<td data-id>@issue.getId</td>
-					    		<td data-postedBy>@issue.getPostedBy</td> 
-					    		<td data-title>@issue.getTitle</td>
-					    		<td data-text>@issue.getText</td>
-					    		<td data-status>@issue.getStatus</td>
+					    @for(project <- projectList) {
+					    		<td data-id>@project.getId</td>
+					    		<td data-name>@project.getName</td>
 					    	</tr>
 					    }
 					    </tbody>
@@ -51,11 +45,9 @@
 	    </div>
     </section>
   	
-    <!-- PRIMER ZA DODAVANJE EKSTERNOG FILE-a -->
-    @_add_issue()
 </div>
 } {
 	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
 } {
-	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/issue.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>
 }

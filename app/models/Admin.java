@@ -65,6 +65,54 @@ public class Admin {
         return adminList.isEmpty()?null:adminList.get(0);
     }
 
+    public static Admin loadById(Connection conn, long id) throws SQLException {
+        String query = "SELECT * FROM admins where id = ?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+        int i = 1;
+        statement.setLong(i++, id);
+
+        List<Admin> adminList = new LinkedList<Admin>();
+
+        DSDB.executeAndParse(statement, rs -> {
+            Admin admin = new Admin();
+            admin.parse(rs);
+
+            adminList.add(admin);
+        });
+
+        return adminList.isEmpty()?null:adminList.get(0);
+    }
+
+    public static long insert(Connection conn, Admin admin) throws SQLException {
+        String query = "INSERT INTO `admins`(id, `username`, `password`) VALUES (null, ?, ?)";
+
+        PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        int i = 1;
+        statement.setString(i++, admin.username);
+        statement.setString(i++, admin.password);
+
+        statement.executeUpdate();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if (resultSet.next())
+            return resultSet.getLong(1);
+
+        return 0l;
+    }
+
+    public static void update(Connection conn, Admin admin) throws SQLException {
+        final String query = "UPDATE `admins` SET `username`=?, password=? WHERE id=?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+
+        int i = 1;
+        statement.setString(i++, admin.username);
+        statement.setString(i++, admin.password);
+        statement.setLong(i++, admin.id);
+
+        statement.execute();
+    }
+
     public long getId() {
         return id;
     }
