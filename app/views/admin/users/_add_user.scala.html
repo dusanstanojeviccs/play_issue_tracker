@@ -9,6 +9,9 @@
         <h4 ng-if="user.id!=0" class="modal-title">Update User</h4>
       </div>
       <div class="modal-body">
+      
+      <div ng-show="error" class="alert alert-danger">Could not save</div>
+
     	<div class="form-group">
     		<div class="">
     			<label>Type</label>

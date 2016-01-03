@@ -35,14 +35,20 @@ public class Application extends Controller {
                 if ((loadedAdmin = Admin.load(conn, form.get("username"), form.get("password")))!=null) {
                     session("admin_loggedin", "yes");
                     session("user_id", String.valueOf(loadedAdmin.getId()));
+                    session("user_username", form.get("username"));
+                    session("user_type", "Admin");
                     result[0] = redirect(controllers.routes.Admins.users());
                 } else if ((loadedDeveloper = Developer.load(conn, form.get("username"), form.get("password")))!=null) {
                     session("developer_loggedin", "yes");
                     session("user_id", String.valueOf(loadedDeveloper.getId()));
+                    session("user_username", form.get("username"));
+                    session("user_type", "Developer");
                     result[0] = redirect(controllers.routes.Developers.viewProjects());
                 } else if ((loadedQA = QAUser.load(conn, form.get("username"), form.get("password")))!=null) {
                     session("qa_loggedin", "yes");
                     session("user_id", String.valueOf(loadedQA.getId()));
+                    session("user_username", form.get("username"));
+                    session("user_type", "Tester");
                     result[0] = redirect(controllers.routes.QAUsers.viewProjects());
                 } else {
                     result[0] = ok(index.render(true));

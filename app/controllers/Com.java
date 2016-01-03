@@ -8,6 +8,14 @@ public class Com {
 	public static final String[] DEVELOPER_PAGE_NAMES = {"Projects", "Issues"};
 	public static final String[] QA_PAGE_NAMES = {"Projects", "Issues"};
 
+	public static String getType() {
+		return session("user_type");
+	}
+
+	public static String getUsername() {
+		return session("user_username");
+	}
+
 	public static long getLoggedInUserId() {
 		return Long.parseLong(session("user_id"));
 	}

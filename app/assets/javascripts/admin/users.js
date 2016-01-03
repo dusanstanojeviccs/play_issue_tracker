@@ -1,5 +1,6 @@
 app.controller('UserController', function($scope, $http) {
     $scope.user = {};
+    $scope.error = false;
 
 	String.prototype.capitalize = function() {
 		return this.charAt(0).toUpperCase() + this.slice(1);
@@ -22,16 +23,18 @@ app.controller('UserController', function($scope, $http) {
 					$row.find("[data-username]").html($scope.user.username);
 					$row.find("[data-password]").html($scope.user.password);
 				}
+				$scope.error = false;
             } else {
-				$scope.error = "Couldn't save user";
+				$scope.error = true;
             }
         }).error(function(data, status) {
-			$scope.error = "Couldn't save user";
+			$scope.error = true;
         });
     };
 
     $(function() {
 		$("[data-add-user]").click(function() {
+			$scope.error = false;
 			$scope.user = {
 				type: "admin",
 				username: "",
@@ -43,6 +46,7 @@ app.controller('UserController', function($scope, $http) {
 
 
 		$("tr[data-id]").click(function() {
+			$scope.error = false;
 			$scope.user = {
 				type: $(this).attr("data-type"),
 				username: $(this).find("[data-username]").html(),

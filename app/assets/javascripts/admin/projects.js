@@ -1,6 +1,6 @@
 app.controller('ProjectController', function($scope, $http) {
     $scope.project = {};
-    $scope.error = "";
+    $scope.error = false;
 
     $scope.saveProject = function() {
         $http.post(Routes.saveProject, JSON.stringify($scope.project)).success(function(data, status) {
@@ -12,11 +12,13 @@ app.controller('ProjectController', function($scope, $http) {
 						if ($(this).html()===$scope.project.id)
 							$(this).parent().find("[data-name]").html($scope.project.name);
 					});
+
+				$scope.error = false;
             } else {
-				$scope.error = "Couldn't save project";
+				$scope.error = true;
             }
         }).error(function(data, status) {
-			$scope.error = "Couldn't save project";
+			$scope.error = true;
         });
     };
 
@@ -25,6 +27,7 @@ app.controller('ProjectController', function($scope, $http) {
 			$scope.project = {
 				name: ""
 			};
+			$scope.error = false;
 			$scope.$apply();
 		});
 
@@ -33,6 +36,7 @@ app.controller('ProjectController', function($scope, $http) {
 			if ($(this).find(".dataTables_empty").length) {
 
 			} else {
+				$scope.error = false;
 				$scope.project = {
 					name: $(this).find("[data-name]").html(),
 					id: $(this).find("[data-id]").html()
