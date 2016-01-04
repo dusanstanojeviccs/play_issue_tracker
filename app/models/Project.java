@@ -30,6 +30,24 @@ public class Project {
         return projectList;
 	}
 
+    public static List<Project> loadById(Connection conn, long id) throws SQLException {
+        String query = "SELECT * FROM projects WHERE id =?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setLong(1, id);
+
+        List<Project> projectList = new LinkedList<Project>();
+
+        DSDB.executeAndParse(statement, rs -> {
+            Project project = new Project();
+            project.parse(rs);
+
+            projectList.add(project);
+        });
+
+        return projectList.get(0);
+    }
+
 	public List<Developer> getDevelopers(Connection conn) throws SQLException {
 		String query = "SELECT * FROM developers JOIN developers_projects "+
 						"ON developers.id=developers_projects.developer_id WHERE "+

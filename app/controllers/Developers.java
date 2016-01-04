@@ -21,12 +21,10 @@ public class Developers extends Controller {
         });
         return result[0];
 	}
-	public Result viewIssues() {
+	public Result viewIssues(long projectId) {
 		Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
-            List<Issue> issueList = Issue.load(conn);
-            result[0] = ok(issue_list.render( 
-                issueList));
+            result[0] = ok(issue_list.render(Project.loadById(conn, projectId).getIssues(conn)));
         });
         return result[0];
 	}
@@ -39,9 +37,20 @@ public class Developers extends Controller {
         });
         return result[0];
     }
-	
+	public static class IssueResponse {
+        public int issueId;
+        public String content;
+    }
 	public Result submitResponse() {
-		return ok("Ok");
+		IssueResponse post = Json.fromJson(request().body().asJson(), IssueResponse.class);
+        Result[] results = {badRequest()};
+        
+        DSDB.withConnection(conn-> {
+            results[0] = Json.toJson(QAUsers.loadById(conn, post.issueId).insertResponse(conn, Com.getLoggedInUserId(), post.content, new Timestamp(new Date().getTime())));
+        });
+        
+
+        return results[0];
 	}
 
     public static class IssueSaveRequest {

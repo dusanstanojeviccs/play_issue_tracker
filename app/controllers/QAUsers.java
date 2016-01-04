@@ -23,25 +23,37 @@ public class QAUsers extends Controller {
         });
         return result[0];
 	}
-	public Result viewIssues() {
-		Result[] result = {badRequest()};
+	public Result viewIssues(long projectId) {
+        Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
-            List<Issue> issueList = Issue.load(conn);
-            result[0] = ok(issue_list.render( 
-                issueList));
+            result[0] = ok(issue_list.render(Project.loadById(conn, projectId).getIssues(conn)));
         });
         return result[0];
-	}
+    }
+
 	
-	public Result submitResponse() {
-		return ok("Ok");
-	}
+    public static class IssueResponse {
+        public int issueId;
+        public String content;
+    }
+    public Result submitResponse() {
+        IssueResponse post = Json.fromJson(request().body().asJson(), IssueResponse.class);
+        Result[] results = {badRequest()};
+        
+        DSDB.withConnection(conn-> {
+            results[0] = Json.toJson(QAUsers.loadById(conn, post.issueId).insertResponse(conn, Com.getLoggedInUserId(), post.content, new Timestamp(new Date().getTime())));
+        });
+        
+
+        return results[0];
+    }
 
     public static class IssueSaveRequest {
-        private Long id;
-        private String title;
-        private String text;
-        private String status;
+        public Long id;
+        public String title;
+        public String text;
+        public String status;
+        public long projectId;
     }
 
     public Result saveIssue() {
@@ -54,6 +66,8 @@ public class QAUsers extends Controller {
             p.setTitle(post.title);
             p.setText(post.text);
             p.setStatus(post.status);
+            p.setProjectId(post.projectId);
+            p.setPostedBy(Com.getLoggedInUserId());
             if (post.id!=null && post.id!=0) {
                 Issue.update(conn, p);
             } else {

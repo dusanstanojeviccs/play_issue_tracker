@@ -72,6 +72,23 @@ public class Issue {
         return 0l;
     }
 
+    public long insertResponse(Connection conn, long userId, String content, Timestamp timestamp) throws SQLException {
+        String query = "INSERT INTO `issue_response`(id, `issue_id`, `user_id`, `content`, date_added) VALUES (null, ?, ?, ?, ?)";
+
+        PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        int i = 1;
+        statement.setLong(i++, this.id);
+        statement.setLong(i++, userId);
+        statement.setString(i++, content);
+        statement.setTimestamp(i++, timestamp);
+        statement.executeUpdate();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if (resultSet.next())
+            return resultSet.getLong(1);
+
+        return 0l;
+    }
+
     public static void update(Connection conn, Issue issue) throws SQLException {
         String query = "UPDATE `issues` SET `posted_by`=?, `title`=?, `text`=?, `status`=?, project_id=? WHERE id = ?)";
 
