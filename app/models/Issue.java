@@ -131,6 +131,9 @@ public class Issue {
     public void setId(long id) {
         this.id = id;
     }
+    public long getProjectId() {
+        return projectId;
+    }
     public void setProjectId(long projectId) {
         this.projectId = projectId;
     }

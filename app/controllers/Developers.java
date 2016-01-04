@@ -26,7 +26,7 @@ public class Developers extends Controller {
 	public Result viewIssues(long projectId) {
 		Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
-            result[0] = ok(issue_list.render(Project.loadById(conn, projectId).getIssues(conn)));
+            result[0] = ok(issue_list.render(FullIssue.loadByProject(conn, projectId)));
         });
         return result[0];
 	}

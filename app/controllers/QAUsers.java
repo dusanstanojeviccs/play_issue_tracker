@@ -5,7 +5,7 @@ import play.mvc.*;
 import java.util.*;
 import models.*;
 import views.html.qa.projects.project_list;
-import views.html.qa.issues.issue_list;
+import views.html.qa.issues.*;
 import java.sql.Timestamp;
 import java.util.Date;
 import play.libs.Json;
@@ -26,12 +26,20 @@ public class QAUsers extends Controller {
 	public Result viewIssues(long projectId) {
         Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
-            result[0] = ok(issue_list.render(Project.loadById(conn, projectId).getIssues(conn)));
+            result[0] = ok(issue_list.render(FullIssue.loadByProject(conn, projectId), projectId));
         });
         return result[0];
     }
 
-	
+	 public Result viewIssue(long id) {
+        Result[] result = {badRequest()};
+        DSDB.withConnection(conn -> {
+            Issue issueList = Issue.loadById(conn, id);
+            result[0] = ok(single_issue.render( 
+                issueList));
+        });
+        return result[0];
+    }
     public static class IssueResponse {
         public Long issueId;
         public String content;
@@ -69,12 +77,14 @@ public class QAUsers extends Controller {
             p.setProjectId(post.projectId);
             p.setPostedBy(Com.getLoggedInUserId());
             if (post.id!=null && post.id!=0) {
+                p.setId(post.id);
                 Issue.update(conn, p);
             } else {
                 p.setId(Issue.insert(conn, p));    
             }
-            results[0] = ok("Ok");
+            results[0] = ok(""+p.getId());
         });
         return results[0];
     }
+
 }

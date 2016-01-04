@@ -1,4 +1,4 @@
-@(issueList: List[Issue])
+@(issueList: List[FullIssue])
 
 @import views.html.developer.developer_navbar
 @import play.Play
@@ -33,16 +33,15 @@
 							</tr>
 						</thead>
 						<tbody>
-					    @for(issue <- issueList) {
-					    	<a  class="col-md-3" href="@controllers.routes.Developers.viewIssue(issue.getId)">
-						    	<tr data-id="@issue.getId" data-toggle="modal" data-target="#add-issue-modal" data-add-project>
-						    		<td data-id>@issue.getId</td>
-						    		<td data-postedBy>@issue.getPostedBy</td> 
-						    		<td data-title>@issue.getTitle</td>
-						    		<td data-text>@issue.getText</td>
-						    		<td data-status>@issue.getStatus</td>
-						    	</tr>
-					    	</a>
+
+						@for(fullissue <- issueList) {
+					    	<tr data-id="@fullissue.getIssue.getId" data-toggle="modal" data-target="#add-issue-modal" data-add-project onclick="window.location='@controllers.routes.Developers.viewIssue(fullissue.getIssue.getId)'">
+					    		<td data-id>@fullissue.getIssue.getId</td>
+					    		<td data-postedBy>@fullissue.postedBy</td> 
+					    		<td data-title>@fullissue.getIssue.getTitle</td>
+					    		<td data-text>@fullissue.getIssue.getText</td>
+					    		<td data-status>@fullissue.getIssue.getStatus</td>
+					    	</tr>
 					    }
 					    </tbody>
 					</table>

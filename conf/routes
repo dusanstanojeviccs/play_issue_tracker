@@ -23,7 +23,10 @@ POST     /dev/issues/add                           controllers.Developers.submit
 
 # QA page
 GET     /qa/projects                           controllers.QAUsers.viewProjects()
-GET     /qa/issues/:projectId                           controllers.QAUsers.viewIssues(projectId: Long)
+GET     /qa/issues/:projectId                  controllers.QAUsers.viewIssues(projectId: Long)
+GET     /qa/issue/:projectId                  controllers.QAUsers.viewIssue(projectId: Long)
+POST     /qa/issues                           controllers.QAUsers.saveIssue()
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

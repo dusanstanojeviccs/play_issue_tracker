@@ -18,15 +18,11 @@
 			<div class="col-md-12">
 	          <div class="box">
 	            <div class="box-header">
-	              <h3 class="box-title">Issues</h3>
+	              <h3 class="box-title">@issue.getTitle</h3>
+	              <div>@issue.getStatus</div>
 	            </div>
 	            <!-- /.box-header -->
 	            <div class="box-body">
-	                <div>
-	                	<div class="btn btn-primary pull-right" style="margin-bottom:15px" data-toggle="modal" data-target="#add-issue-modal" data-add-project>@issue.getTitle</div><div class="clearfix"></div>
-	                	<div>@issue.getStatus</div>
-	                </div>
-	                
 	                <div>@issue.getText</div>
 	            </div>
 	          </div>
@@ -34,16 +30,13 @@
 
 	          <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">Bootstrap WYSIHTML5 <small>Simple and fast</small></h3>
-                  <!-- tools box -->
-                  <div class="pull-right box-tools">
-                    <button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                    <button class="btn btn-default btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                  </div><!-- /. tools -->
+                  <h3 class="box-title">New Message</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body pad">
                   <form>
-                    <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                    <textarea class="textarea col-md-12 form-control" placeholder="Place some text here" id="wysiwyg"></textarea>
+                    <div style="clear:both"></div>
+                    <button class="btn btn-success pull-right" style="margin-top:10px">Send</button>
                   </form>
                 </div>
               </div>
@@ -55,5 +48,5 @@
 } {
 	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
 } {
-	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>
+	@*<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>*@
 }

@@ -1,0 +1,52 @@
+@(issue: Issue)
+
+@import views.html.qa.qa_navbar
+@import play.Play
+
+@main("QA - Issue") {
+	@qa_navbar(Com.QA_PAGE_NAMES(1))
+} {
+<script>
+	var Routes = {
+		saveProject: "@controllers.routes.Admins.saveProject()"
+	};
+</script>
+
+<div ng-controller="IssueController">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+	          <div class="box">
+	            <div class="box-header">
+	              <h3 class="box-title">@issue.getTitle</h3>
+	              <div>@issue.getStatus</div>
+	            </div>
+	            <!-- /.box-header -->
+	            <div class="box-body">
+	                <div>@issue.getText</div>
+	            </div>
+	          </div>
+	          <!-- /.box -->
+
+	          <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">New Message</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body pad">
+                  <form>
+                    <textarea class="textarea col-md-12 form-control" placeholder="Place some text here" id="wysiwyg"></textarea>
+                    <div style="clear:both"></div>
+                    <button class="btn btn-success pull-right" style="margin-top:10px">Send</button>
+                  </form>
+                </div>
+              </div>
+
+	        </div>
+	    </div>
+    </section>
+</div>
+} {
+	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
+} {
+	@*<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>*@
+}
