@@ -33,7 +33,7 @@ public class Developers extends Controller {
     public Result viewIssue(long id) {
         Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
-            Issue issueList = Issue.loadById(conn);
+            Issue issueList = Issue.loadById(conn, id);
             result[0] = ok(single_issue.render( 
                 issueList));
         });
