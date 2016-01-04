@@ -7,6 +7,8 @@ import models.*;
 import views.html.qa.projects.project_list;
 import views.html.qa.issues.issue_list;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import play.libs.Json;
 
 import play.mvc.Security;
@@ -33,7 +35,7 @@ public class QAUsers extends Controller {
 
 	
     public static class IssueResponse {
-        public int issueId;
+        public Long issueId;
         public String content;
     }
     public Result submitResponse() {
@@ -41,7 +43,7 @@ public class QAUsers extends Controller {
         Result[] results = {badRequest()};
         
         DSDB.withConnection(conn-> {
-            results[0] = Json.toJson(QAUsers.loadById(conn, post.issueId).insertResponse(conn, Com.getLoggedInUserId(), post.content, new Timestamp(new Date().getTime())));
+            results[0] = ok(Json.stringify(Json.toJson(Issue.loadById(conn, post.issueId).insertResponse(conn, Com.getLoggedInUserId(), post.content, new Timestamp(new Date().getTime())))));
         });
         
 

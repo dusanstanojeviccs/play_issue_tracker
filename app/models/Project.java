@@ -30,7 +30,7 @@ public class Project {
         return projectList;
 	}
 
-    public static List<Project> loadById(Connection conn, long id) throws SQLException {
+    public static Project loadById(Connection conn, long id) throws SQLException {
         String query = "SELECT * FROM projects WHERE id =?";
 
         PreparedStatement statement = conn.prepareStatement(query);
