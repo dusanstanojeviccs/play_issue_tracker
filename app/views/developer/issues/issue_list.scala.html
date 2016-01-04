@@ -22,7 +22,6 @@
 	            </div>
 	            <!-- /.box-header -->
 	            <div class="box-body">
-	                <div><div class="btn btn-primary pull-right" style="margin-bottom:15px" data-toggle="modal" data-target="#add-issue-modal" data-add-project>Add Issue</div><div class="clearfix"></div></div>
 	                <table id="datatable" class="table table-bordered table-striped clear clickable">
 	                	<thead>
 							<tr >
@@ -35,13 +34,15 @@
 						</thead>
 						<tbody>
 					    @for(issue <- issueList) {
-					    	<tr data-id="@issue.getId" data-toggle="modal" data-target="#add-issue-modal" data-add-project>
-					    		<td data-id>@issue.getId</td>
-					    		<td data-postedBy>@issue.getPostedBy</td> 
-					    		<td data-title>@issue.getTitle</td>
-					    		<td data-text>@issue.getText</td>
-					    		<td data-status>@issue.getStatus</td>
-					    	</tr>
+					    	<a  class="col-md-3" href="@controllers.routes.Developers.viewIssue(issue.getId)">
+						    	<tr data-id="@issue.getId" data-toggle="modal" data-target="#add-issue-modal" data-add-project>
+						    		<td data-id>@issue.getId</td>
+						    		<td data-postedBy>@issue.getPostedBy</td> 
+						    		<td data-title>@issue.getTitle</td>
+						    		<td data-text>@issue.getText</td>
+						    		<td data-status>@issue.getStatus</td>
+						    	</tr>
+					    	</a>
 					    }
 					    </tbody>
 					</table>

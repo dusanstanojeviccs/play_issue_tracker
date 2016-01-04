@@ -51,7 +51,6 @@ public class Developers extends Controller {
             results[0] = ok(Json.stringify(Json.toJson(Issue.loadById(conn, post.issueId).insertResponse(conn, Com.getLoggedInUserId(), post.content, new Timestamp(new Date().getTime())))));
         });
         
-
         return results[0];
 	}
 

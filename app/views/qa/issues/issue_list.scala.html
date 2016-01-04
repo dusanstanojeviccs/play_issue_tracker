@@ -8,7 +8,7 @@
 } {
 <script>
 	var Routes = {
-		saveProject: "@controllers.routes.Admins.saveProject()"
+		saveProject: "@controllers.routes.Developers.saveProject()"
 	};
 </script>
 
@@ -51,9 +51,10 @@
 	        </div>
 	    </div>
     </section>
+    @_add_issue()
 </div>
 } {
 	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
 } {
-	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/qa/issue.js")"></script>
 }

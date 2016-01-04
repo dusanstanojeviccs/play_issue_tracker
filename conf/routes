@@ -18,6 +18,7 @@ POST 	 /admin/issues 						controllers.Admins.saveIssue()
 # Developer page
 GET     /dev/projects                           controllers.Developers.viewProjects()
 GET     /dev/issues/:projectId                           controllers.Developers.viewIssues(projectId: Long)
+GET     /dev/issue/:issueId                           controllers.Developers.viewIssue(issueId: Long)
 POST     /dev/issues/add                           controllers.Developers.submitResponse()
 
 # QA page
