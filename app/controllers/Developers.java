@@ -5,7 +5,7 @@ import play.mvc.*;
 import java.util.*;
 import models.*;
 import views.html.developer.projects.project_list;
-import views.html.developer.issues.issue_list;
+import views.html.developer.issues.*;
 import play.libs.Json;
 import play.mvc.Security;
 
@@ -30,6 +30,15 @@ public class Developers extends Controller {
         });
         return result[0];
 	}
+    public Result viewIssue(long id) {
+        Result[] result = {badRequest()};
+        DSDB.withConnection(conn -> {
+            Issue issueList = Issue.loadById(conn);
+            result[0] = ok(single_issue.render( 
+                issueList));
+        });
+        return result[0];
+    }
 	
 	public Result submitResponse() {
 		return ok("Ok");
