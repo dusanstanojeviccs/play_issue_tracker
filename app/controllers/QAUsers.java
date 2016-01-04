@@ -6,11 +6,9 @@ import java.util.*;
 import models.*;
 import views.html.qa.projects.project_list;
 import views.html.qa.issues.issue_list;
-
 import java.sql.Timestamp;
 import java.util.Date;
 import play.libs.Json;
-
 import play.mvc.Security;
 
 @Security.Authenticated(QaSecurity.class)
