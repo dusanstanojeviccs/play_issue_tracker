@@ -119,7 +119,7 @@ public class Project {
         String query = "SELECT * FROM issues WHERE project_id=?";
 
         PreparedStatement statement = conn.prepareStatement(query);
-        //statement.bind(0, id);
+        statement.setLong(1, id);
         List<Issue> issueList = new LinkedList<Issue>();
 
         DSDB.executeAndParse(statement, rs -> {
