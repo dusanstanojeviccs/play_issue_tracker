@@ -20,7 +20,7 @@
 	            <!-- /.box-header -->
 	            <div class="row">
 					    @for(project <- projectList) {
-					    	<div class="col-md-3">
+					    	<a  class="col-md-3" href="@controllers.routes.QAUsers.viewIssues(project.getId)">
 					    		<div data-id="@project.getId">
 						    		<div class="info-box">
 				            			<span class="info-box-icon bg-aqua"><i class="fa fa-briefcase"></i></span>
@@ -29,7 +29,7 @@
 					            		</div>
 	          						</div>
 						    	</div>
-						    </div>
+						    </a>
 					    }
 	            </div>
 	          <!-- /.box -->
