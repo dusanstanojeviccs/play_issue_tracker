@@ -1,5 +1,6 @@
 app.controller('IssueController', function($scope, $http) {
     $scope.issue = {};
+    $scope.comm = {};
     $scope.error = false;
 
     $scope.saveIssue = function() {
@@ -15,7 +16,6 @@ app.controller('IssueController', function($scope, $http) {
 		$("[data-add-issue]").click(function() {
 			$scope.error = false;
 
-	//alert(projectId);
 			$scope.issue = {
 				title: "",
 				id: 0,

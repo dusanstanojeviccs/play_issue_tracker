@@ -1,6 +1,7 @@
 package controllers;
 import models.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import static play.mvc.Controller.session;
 
 public class Com {
@@ -28,5 +29,9 @@ public class Com {
 	}
 	public static Developer getLoggedInDeveloper(Connection conn) throws SQLException {
 		return Developer.loadById(conn, Long.parseLong(session("user_id")));
+	}
+
+	public static String formatTimestamp(Timestamp t) {
+		return new SimpleDateFormat("DD/MM/YYYY HH:mm:ss").format(t);
 	}
 }

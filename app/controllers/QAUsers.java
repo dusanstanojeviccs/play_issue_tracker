@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import play.libs.Json;
 import play.mvc.Security;
+import play.data.DynamicForm;
+import play.data.Form;
 
 @Security.Authenticated(QaSecurity.class)
 public class QAUsers extends Controller {
@@ -23,6 +25,7 @@ public class QAUsers extends Controller {
         });
         return result[0];
 	}
+
 	public Result viewIssues(long projectId) {
         Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
@@ -31,28 +34,36 @@ public class QAUsers extends Controller {
         return result[0];
     }
 
+    // public Result viewIssuesResponse(long issueId) {
+    //     Result[] result = {badRequest()};
+    //     DSDB.withConnection(conn -> {
+    //         List<IssueResponse> issueResponseList = IssueResponse.load(conn, issueId);
+    //         result[0] = ok(_list.render(issueResponseList, issueId));
+    //     });
+    //     return result[0];
+    // }
+
 	 public Result viewIssue(long id) {
         Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
-            Issue issueList = Issue.loadById(conn, id);
+            Issue issue = Issue.loadById(conn, id);
+            List<IssueResponse> issueResponseList = IssueResponse.load(conn, id);
             result[0] = ok(single_issue.render( 
-                issueList));
+                issue, issueResponseList));
         });
         return result[0];
     }
-    public static class IssueResponse {
-        public Long issueId;
-        public String content;
-    }
+
     public Result submitResponse() {
-        IssueResponse post = Json.fromJson(request().body().asJson(), IssueResponse.class);
         Result[] results = {badRequest()};
         
-        DSDB.withConnection(conn-> {
-            results[0] = ok(Json.stringify(Json.toJson(Issue.loadById(conn, post.issueId).insertResponse(conn, Com.getLoggedInUserId(), post.content, new Timestamp(new Date().getTime())))));
-        });
-        
+        DynamicForm form = Form.form().bindFromRequest();
 
+        DSDB.withConnection(conn-> {
+            long issueId = Long.parseLong(form.get("issueId"));
+            Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get("comment"), new Timestamp(new Date().getTime()));
+            results[0] = viewIssue(issueId);
+        });
         return results[0];
     }
 

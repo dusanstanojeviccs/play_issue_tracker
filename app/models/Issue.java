@@ -43,7 +43,6 @@ public class Issue {
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setLong(1, id);
         List<Issue> issueList = new LinkedList<Issue>();
-
         DSDB.executeAndParse(statement, rs -> {
             Issue issue = new Issue();
             issue.parse(rs);
@@ -52,7 +51,6 @@ public class Issue {
 
         return issueList.get(0);
     }
-
 
     public static long insert(Connection conn, Issue issue) throws SQLException {
         String query = "INSERT INTO `issues`(id, `posted_by`, `title`, `text`, `status`, project_id) VALUES (null, ?, ?, ?, ?, ?)";

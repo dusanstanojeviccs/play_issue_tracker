@@ -23,7 +23,7 @@ app.controller('ProjectController', function($scope, $http) {
     };
 
     $(function() {
-		$("[data-add-project]").click(function() {
+		$("body").on("click", "[data-add-project]", function() {
 			$scope.project = {
 				name: ""
 			};
@@ -32,7 +32,7 @@ app.controller('ProjectController', function($scope, $http) {
 		});
 
 
-		$("tr").click(function() {
+		$("body").on("click", "tr", function() {
 			if ($(this).find(".dataTables_empty").length) {
 
 			} else {

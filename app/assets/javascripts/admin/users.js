@@ -11,6 +11,12 @@ app.controller('UserController', function($scope, $http) {
             if (!isNaN(Number(data)) && Number(data)!==0) {
 				if ($scope.user.id===0) {
 					console.log("YOYOOYO");
+					$scope.user = {
+				type: "admin",
+				username: "",
+				password: "",
+				id:0
+			};
 					$("tbody").append(
 					"<tr data-id=\""+data+"\" data-type=\""+$scope.user.type+"\">"+
 					"<td data-type>"+$scope.user.type.capitalize()+"</td>"+
@@ -33,7 +39,7 @@ app.controller('UserController', function($scope, $http) {
     };
 
     $(function() {
-		$("[data-add-user]").click(function() {
+		$("body").on("click", "data-add-user", function() {
 			$scope.error = false;
 			$scope.user = {
 				type: "admin",
@@ -45,7 +51,7 @@ app.controller('UserController', function($scope, $http) {
 		});
 
 
-		$("tr[data-id]").click(function() {
+		$("body").on("click", "tr[data-id]", function() {
 			$scope.error = false;
 			$scope.user = {
 				type: $(this).attr("data-type"),

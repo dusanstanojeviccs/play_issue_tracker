@@ -22,7 +22,7 @@ app.controller('IssueController', function($scope, $http) {
     };
 
     $(function() {
-		$("[data-add-issue]").click(function() {
+		$("body").on("click","[data-add-issue]", function() {
 			$scope.error = false;
 			$scope.issue = {
 				name: ""
@@ -31,14 +31,16 @@ app.controller('IssueController', function($scope, $http) {
 		});
 
 
-		$("tr").click(function() {
+		$("body").on("click", "tr", function() {
 			if ($(this).find(".dataTables_empty").length) {
 
 			} else {
 				$scope.error = false;
 				$scope.issue = {
-					name: $(this).find("[data-name]").html(),
-					id: $(this).find("[data-id]").html()
+					title: $(this).find("[data-title]").html(),
+					id: $(this).find("[data-id]").html(),
+					status: $(this).find("[data-status]").html(),
+					text: $(this).find("[data-text]").html()
 				};
 				
 				$scope.$apply();

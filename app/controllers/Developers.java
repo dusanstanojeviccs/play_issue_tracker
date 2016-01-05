@@ -10,6 +10,8 @@ import play.libs.Json;
 import play.mvc.Security;
 import java.sql.Timestamp;
 import java.util.Date;
+import play.data.DynamicForm;
+import play.data.Form;
 
 @Security.Authenticated(DeveloperSecurity.class)
 public class Developers extends Controller {
@@ -43,16 +45,19 @@ public class Developers extends Controller {
         public Long issueId;
         public String content;
     }
-	public Result submitResponse() {
-		IssueResponse post = Json.fromJson(request().body().asJson(), IssueResponse.class);
+    public Result submitResponse() {
         Result[] results = {badRequest()};
         
+        DynamicForm form = Form.form().bindFromRequest();
+
         DSDB.withConnection(conn-> {
-            results[0] = ok(Json.stringify(Json.toJson(Issue.loadById(conn, post.issueId).insertResponse(conn, Com.getLoggedInUserId(), post.content, new Timestamp(new Date().getTime())))));
+            long issueId = Long.parseLong(form.get("issueId"));
+            Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get("comment"), new Timestamp(new Date().getTime()));
+            results[0] = viewIssue(issueId);
         });
-        
+
         return results[0];
-	}
+    }
 
     public static class IssueSaveRequest {
         private Long id;

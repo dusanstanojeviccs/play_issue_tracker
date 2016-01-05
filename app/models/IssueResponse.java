@@ -1,0 +1,70 @@
+
+package models;
+
+import java.sql.*;
+import controllers.DSDB;
+import java.util.*;
+import play.db.DB;
+
+public class IssueResponse {
+	private long id;
+	private long userId;
+	private String content;
+	private Timestamp timestamp;
+	private String userType;
+
+	public void parse(ResultSet rs) throws SQLException {
+        this.id = rs.getLong("id");
+        this.userId = rs.getLong("user_id");
+        this.content = rs.getString("content");
+        this.timestamp = rs.getTimestamp("date_added");
+        this.userType = rs.getString("user_type");
+    }
+
+	public static List<IssueResponse> load(Connection conn, long issueId) throws SQLException {
+        String query = "SELECT * FROM `issue_response` WHERE issue_id = ?";
+
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setLong(1, issueId);
+
+        List<IssueResponse> issueResponseList = new LinkedList<IssueResponse>();
+
+        DSDB.executeAndParse(statement, rs -> {
+            IssueResponse issueResponse = new IssueResponse();
+            issueResponse.parse(rs);
+            issueResponseList.add(issueResponse);
+        });
+
+        return issueResponseList;
+	}
+
+	 public long getId() {
+        return id;
+    }
+
+    public long getUserId(){
+    	return userId;
+    }
+
+    public String getContent(){
+    	return content;
+    }
+    public Timestamp getTimestamp(){
+    	return timestamp;
+    }
+    public String getUserType(){
+    	return userType;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+    public void setUserId(long userId){
+    	this.userId = userId;
+    }
+    public void setContent(String content){
+    	this.content = content;
+    }
+    public void setTimestamp(Timestamp timestamp){
+    	this.timestamp = timestamp;
+    }
+}

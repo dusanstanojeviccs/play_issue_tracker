@@ -28,15 +28,18 @@
       <div class="form-group">
         <div class="">
           <label>Status</label>
-          <input type="status" ng-model="issue.status" class="form-control">
+          <select class="form-control" ng-model="issue.status">
+            <option value="Not solved">Not solved</option>
+            <option value="Waiting approval">Waiting approval</option>
+          <option value="Solved">Solved</option>
+          </select>
         </div>
-      </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-success" ng-click="saveIssue()" data-dismiss="modal">Save</button>
       </div>
     </div>
-
+  </div>
   </div>
 </div>
