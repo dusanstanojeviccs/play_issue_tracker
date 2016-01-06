@@ -15,7 +15,7 @@ public class FullIssue {
 		postedBy = rs.getString("username");
 	}
 	public static List<FullIssue> loadByProject(Connection conn, long projectId) throws SQLException {
-		String query = "SELECT issues.*, qa_users.username FROM issues JOIN qa_users ON issues.posted_by = qa_users.id WHERE issues.project_id = ?";
+		String query = "SELECT issues.*, users.username FROM issues JOIN users ON issues.posted_by = users.id WHERE issues.project_id = ?";
 		
 		PreparedStatement statement = conn.prepareStatement(query);
         statement.setLong(1, projectId);

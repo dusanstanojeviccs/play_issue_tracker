@@ -17,7 +17,7 @@ public class QAUser {
     }
 
 	public static List<QAUser> load(Connection conn) throws SQLException {
-        String query = "SELECT * FROM qa_users";
+        String query = "SELECT * FROM users WHERE type='Tester'";
 
         PreparedStatement statement = conn.prepareStatement(query);
 
@@ -33,7 +33,7 @@ public class QAUser {
 	}
 
     public static QAUser load(Connection conn, String username, String password)throws SQLException{
-        String query = "SELECT * FROM qa_users where username = ? and password = ?";
+        String query = "SELECT * FROM users where username = ? and password = ? and type='Tester'";
 
         PreparedStatement statement = conn.prepareStatement(query);
         int i = 1;
@@ -51,7 +51,7 @@ public class QAUser {
         return qaList.isEmpty()?null:qaList.get(0);
     }
     public static QAUser loadById(Connection conn, long id) throws SQLException {
-        String query = "SELECT * FROM admins where id = ?";
+        String query = "SELECT * FROM users where id = ? and type='Tester'";
 
         PreparedStatement statement = conn.prepareStatement(query);
         int i = 1;
@@ -70,7 +70,7 @@ public class QAUser {
     }
 
     public static long insert(Connection conn, QAUser qa) throws SQLException {
-        String query = "INSERT INTO `qa_users`(id, `username`, `password`) VALUES (null, ?, ?)";
+        String query = "INSERT INTO `users`(id, `username`, `password`, type) VALUES (null, ?, ?, 'Tester')";
 
         PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         int i = 1;
@@ -86,7 +86,7 @@ public class QAUser {
     }
 
     public static void update(Connection conn, QAUser qa) throws SQLException {
-        final String query = "UPDATE `qa_users` SET `username`=?, password=? WHERE id=?";
+        final String query = "UPDATE `users` SET `username`=?, password=? WHERE id=?";
 
         PreparedStatement statement = conn.prepareStatement(query);
 

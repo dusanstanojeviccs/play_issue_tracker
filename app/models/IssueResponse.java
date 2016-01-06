@@ -11,18 +11,18 @@ public class IssueResponse {
 	private long userId;
 	private String content;
 	private Timestamp timestamp;
-	private String userType;
+    private String user;
 
 	public void parse(ResultSet rs) throws SQLException {
         this.id = rs.getLong("id");
         this.userId = rs.getLong("user_id");
         this.content = rs.getString("content");
         this.timestamp = rs.getTimestamp("date_added");
-        this.userType = rs.getString("user_type");
+        this.user = rs.getString("username");
     }
 
 	public static List<IssueResponse> load(Connection conn, long issueId) throws SQLException {
-        String query = "SELECT * FROM `issue_response` WHERE issue_id = ?";
+        String query = "SELECT * FROM `issue_response` JOIN users ON issue_response.user_id=users.id WHERE issue_id = ?";
 
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setLong(1, issueId);
@@ -52,8 +52,8 @@ public class IssueResponse {
     public Timestamp getTimestamp(){
     	return timestamp;
     }
-    public String getUserType(){
-    	return userType;
+    public String getUser(){
+    	return user;
     }
     public void setId(long id) {
         this.id = id;

@@ -1,6 +1,7 @@
 app.controller('ProjectController', function($scope, $http) {
     $scope.project = {};
     $scope.error = false;
+    $scope.errorMessage = "";
 
     $scope.saveProject = function() {
         $http.post(Routes.saveProject, JSON.stringify($scope.project)).success(function(data, status) {
@@ -12,12 +13,14 @@ app.controller('ProjectController', function($scope, $http) {
 						if ($(this).html()===$scope.project.id)
 							$(this).parent().find("[data-name]").html($scope.project.name);
 					});
-
+				$("#add-project-modal").modal("hide");
 				$scope.error = false;
             } else {
+				$scope.errorMessage = "Could not save";
 				$scope.error = true;
             }
         }).error(function(data, status) {
+			$scope.errorMessage = "Could not save";
 			$scope.error = true;
         });
     };

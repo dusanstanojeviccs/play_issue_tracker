@@ -16,7 +16,7 @@ public class Developer {
     }
 
 	public static List<Developer> load(Connection conn) throws SQLException {
-        String query = "SELECT * FROM developers";
+        String query = "SELECT * FROM users WHERE type='Developer'";
 
         PreparedStatement statement = conn.prepareStatement(query);
 
@@ -31,7 +31,7 @@ public class Developer {
         return developerList;
 	}
     public static Developer load(Connection conn, String username, String password)throws SQLException{
-        String query = "SELECT * FROM developers where username = ? and password = ?";
+        String query = "SELECT * FROM users where username = ? and password = ? and type='Developer'";
 
         PreparedStatement statement = conn.prepareStatement(query);
         int i = 1;
@@ -50,7 +50,7 @@ public class Developer {
     }
 
     public static Developer loadById(Connection conn, long id) throws SQLException {
-        String query = "SELECT * FROM developers where id = ?";
+        String query = "SELECT * FROM users where id = ? AND type='Developer'";
 
         PreparedStatement statement = conn.prepareStatement(query);
         int i = 1;
@@ -69,7 +69,7 @@ public class Developer {
     }
 
     public static long insert(Connection conn, Developer developer) throws SQLException {
-        String query = "INSERT INTO `developers`(id, `username`, `password`) VALUES (null, ?, ?)";
+        String query = "INSERT INTO `users`(id, `username`, `password`, type) VALUES (null, ?, ?, 'Developer')";
 
         PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         int i = 1;
@@ -85,7 +85,7 @@ public class Developer {
     }
 
     public static void update(Connection conn, Developer developer) throws SQLException {
-        final String query = "UPDATE `developers` SET `username`=?, password=? WHERE id=?";
+        final String query = "UPDATE `users` SET `username`=?, password=? WHERE id=?";
 
         PreparedStatement statement = conn.prepareStatement(query);
 

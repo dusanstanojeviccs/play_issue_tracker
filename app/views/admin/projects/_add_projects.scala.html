@@ -9,7 +9,7 @@
       </div>
       <div class="modal-body">
       
-      <div ng-show="error" class="alert alert-danger">Could not save</div>
+      <div ng-show="error" class="alert alert-danger">${errorMessage}</div>
 
         <form>
         	<div class="form-group">
@@ -22,7 +22,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" ng-click="saveProject()" data-dismiss="modal">Save</button>
+        <button type="button" class="btn btn-success" ng-click="saveProject()">Save</button>
       </div>
     </div>
 

@@ -1,4 +1,4 @@
-@(title: String)(sidebar: Html)(content: Html)(header: Html)(footer: Html)
+@(title: String)(sidebar: Html)(content: Html)(header: Html)(footer: Html)(color: String = "blue") 
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +41,9 @@
 
   @header
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+
+<body class="hold-transition skin-@color sidebar-mini">
+  
 <div class="wrapper"  ng-app="IssueApplication">
 
   <header class="main-header">

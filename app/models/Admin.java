@@ -30,7 +30,7 @@ public class Admin {
     }
 
 	public static List<Admin> load(Connection conn) throws SQLException {
-        String query = "SELECT * FROM admins";
+        String query = "SELECT * FROM users WHERE type='Admin'";
 
         PreparedStatement statement = conn.prepareStatement(query);
 
@@ -46,7 +46,7 @@ public class Admin {
         return adminList;
 	}
     public static Admin load(Connection conn, String username, String password) throws SQLException {
-        String query = "SELECT * FROM admins where username = ? and password = ?";
+        String query = "SELECT * FROM users where type='Admin' and username = ? and password = ?";
 
         PreparedStatement statement = conn.prepareStatement(query);
         int i = 1;
@@ -66,7 +66,7 @@ public class Admin {
     }
 
     public static Admin loadById(Connection conn, long id) throws SQLException {
-        String query = "SELECT * FROM admins where id = ?";
+        String query = "SELECT * FROM users where id = ? and type='Admin'";
 
         PreparedStatement statement = conn.prepareStatement(query);
         int i = 1;
@@ -85,7 +85,7 @@ public class Admin {
     }
 
     public static long insert(Connection conn, Admin admin) throws SQLException {
-        String query = "INSERT INTO `admins`(id, `username`, `password`) VALUES (null, ?, ?)";
+        String query = "INSERT INTO `users`(id, `username`, `password`, type) VALUES (null, ?, ?, 'Admin')";
 
         PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         int i = 1;
@@ -101,7 +101,7 @@ public class Admin {
     }
 
     public static void update(Connection conn, Admin admin) throws SQLException {
-        final String query = "UPDATE `admins` SET `username`=?, password=? WHERE id=?";
+        final String query = "UPDATE `users` SET `username`=?, password=? WHERE id=? and type='Admin'";
 
         PreparedStatement statement = conn.prepareStatement(query);
 
