@@ -34,15 +34,6 @@ public class QAUsers extends Controller {
         return result[0];
     }
 
-    // public Result viewIssuesResponse(long issueId) {
-    //     Result[] result = {badRequest()};
-    //     DSDB.withConnection(conn -> {
-    //         List<IssueResponse> issueResponseList = IssueResponse.load(conn, issueId);
-    //         result[0] = ok(_list.render(issueResponseList, issueId));
-    //     });
-    //     return result[0];
-    // }
-
 	 public Result viewIssue(long id) {
         Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
@@ -62,7 +53,7 @@ public class QAUsers extends Controller {
         DSDB.withConnection(conn-> {
             long issueId = Long.parseLong(form.get("issueId"));
             Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get("comment"), new Timestamp(new Date().getTime()));
-            results[0] = viewIssue(issueId);
+            results[0] =  redirect(controllers.routes.QAUsers.viewIssue(issueId));
         });
         return results[0];
     }

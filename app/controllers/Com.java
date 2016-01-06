@@ -32,6 +32,6 @@ public class Com {
 	}
 
 	public static String formatTimestamp(Timestamp t) {
-		return new SimpleDateFormat("DD/MM/YYYY HH:mm:ss").format(t);
+		return new SimpleDateFormat("DD.MM.YYYY HH:mm:ss").format(t);
 	}
 }

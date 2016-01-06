@@ -32,19 +32,18 @@ public class Developers extends Controller {
         });
         return result[0];
 	}
-    public Result viewIssue(long id) {
+
+     public Result viewIssue(long id) {
         Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
-            Issue issueList = Issue.loadById(conn, id);
+            Issue issue = Issue.loadById(conn, id);
+            List<IssueResponse> issueResponseList = IssueResponse.load(conn, id);
             result[0] = ok(single_issue.render( 
-                issueList));
+                issue, issueResponseList));
         });
         return result[0];
     }
-	public static class IssueResponse {
-        public Long issueId;
-        public String content;
-    }
+
     public Result submitResponse() {
         Result[] results = {badRequest()};
         
@@ -53,7 +52,7 @@ public class Developers extends Controller {
         DSDB.withConnection(conn-> {
             long issueId = Long.parseLong(form.get("issueId"));
             Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get("comment"), new Timestamp(new Date().getTime()));
-            results[0] = viewIssue(issueId);
+            results[0] =  redirect(controllers.routes.Developers.viewIssue(issueId));
         });
 
         return results[0];

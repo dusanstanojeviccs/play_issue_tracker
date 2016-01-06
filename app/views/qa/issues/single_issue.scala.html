@@ -13,27 +13,29 @@
 			<div class="col-md-12">
 	          <div class="box-issue">
 	            <div class="box-header">
-	              <h3 class="box-title">@issue.getTitle</h3>
-	              <div class="issue-status">@issue.getStatus</div>
+	            	<h3 class="box-title"style="float:left">@issue.getTitle</h3>
+	            	<div class="issue-status">@issue.getStatus</div>
+	            	<a class="issue-status" style="clear:right">Waiting approval</a>
+	            	<span style="clear:left; float:left">#@issue.getId</span>
 	            </div>
-	            <!-- /.box-header -->
+
 	            <div class="box-body">
 	                <div>@issue.getText</div>
 	            </div>
 	          </div>
-	          <!-- /.box -->
-	          @issueResponseList.map { issueResponse  =>
-				<div class="box">
-		            <div class="box-header">
-		              <h3 class="box-title">@issueResponse.getUser</h3>
-		              <div class="comm-time">@Com.formatTimestamp(issueResponse.getTimestamp)</div>
-		            </div>
-		            <!-- /.box-header -->
-		            <div class="box-body">
-		                <div>@issueResponse.getContent</div>
-		            </div>
-		        </div>
-		  	}
+
+				@issueResponseList.map { issueResponse  =>  
+	          	@if(issueResponse.getUserType.equals("Developer")) {   
+					<div class="callout callout-green-border">
+				}
+				@if(issueResponse.getUserType.equals("Tester")) {
+					<div class="callout callout-blue-border">
+				}
+						<div class="comm-time">@Com.formatTimestamp(issueResponse.getTimestamp)</div>
+			        	<h4>@issueResponse.getUser</h4>
+			        	<p>@issueResponse.getContent</p>
+			    	</div>
+				}  	
 
 	        <div class="box">
                 <div class="box-header">
@@ -57,4 +59,4 @@
 	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
 } {
 	@*<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>*@
-}("red")
+}()

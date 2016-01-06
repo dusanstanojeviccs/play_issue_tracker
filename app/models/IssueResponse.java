@@ -12,6 +12,7 @@ public class IssueResponse {
 	private String content;
 	private Timestamp timestamp;
     private String user;
+    private String userType;
 
 	public void parse(ResultSet rs) throws SQLException {
         this.id = rs.getLong("id");
@@ -19,10 +20,11 @@ public class IssueResponse {
         this.content = rs.getString("content");
         this.timestamp = rs.getTimestamp("date_added");
         this.user = rs.getString("username");
+        this.userType = rs.getString("type");
     }
 
 	public static List<IssueResponse> load(Connection conn, long issueId) throws SQLException {
-        String query = "SELECT * FROM `issue_response` JOIN users ON issue_response.user_id=users.id WHERE issue_id = ?";
+        String query = "SELECT * FROM `issue_response` JOIN users ON issue_response.user_id=users.id WHERE issue_id = ? ORDER BY `issue_response`.`date_added` ASC";
 
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setLong(1, issueId);
@@ -54,6 +56,12 @@ public class IssueResponse {
     }
     public String getUser(){
     	return user;
+    }
+    public String getUserType(){
+        return userType;
+    }
+    public void setUserType(String userType){
+        this.userType = userType;
     }
     public void setId(long id) {
         this.id = id;

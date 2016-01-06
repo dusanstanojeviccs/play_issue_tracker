@@ -1,4 +1,4 @@
-@(issue: Issue)
+@(issue: Issue, issueResponseList: List[IssueResponse])
 
 @import views.html.developer.developer_navbar
 @import play.Play
@@ -11,17 +11,31 @@
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-	          <div class="box">
+	          <div class="box-issue">
 	            <div class="box-header">
-	              <h3 class="box-title">@issue.getTitle</h3>
-	              <div>@issue.getStatus</div>
+	            	<h3 class="box-title" style="float:left">@issue.getTitle</h3>
+	            	<div class="issue-status">@issue.getStatus</div>
+	            	<a class="issue-status" style="clear:right">Waiting approval</a>
+	           		<span style="clear:left; float:left">#@issue.getId</span>
 	            </div>
-	            <!-- /.box-header -->
+
 	            <div class="box-body">
 	                <div>@issue.getText</div>
 	            </div>
 	          </div>
-	          <!-- /.box -->
+
+	          	@issueResponseList.map { issueResponse  =>  
+	          	@if(issueResponse.getUserType.equals("Developer")) {   
+					<div class="callout callout-green-border">
+				}
+				@if(issueResponse.getUserType.equals("Tester")) {
+					<div class="callout callout-blue-border">
+				}
+						<div class="comm-time">@Com.formatTimestamp(issueResponse.getTimestamp)</div>
+			        	<h4>@issueResponse.getUser</h4>
+			        	<p>@issueResponse.getContent</p>
+			    	</div>
+				}
 
 	          <div class="box">
                 <div class="box-header">
@@ -32,7 +46,7 @@
                   	<input type="hidden" value="@issue.getId" name="issueId">
                     <textarea class="textarea col-md-12 form-control" placeholder="Place some text here" id="wysiwyg" name="comment"></textarea>
                     <div style="clear:both"></div>
-                    <button class="btn btn-success pull-right" style="margin-top:10px">Send</button>
+                    <button class="btn btn-success pull-right" style="margin-top:10px" >Send</button>
                   </form>
                 </div>
               </div>
