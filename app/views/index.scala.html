@@ -24,6 +24,12 @@
     <![endif]-->
   </head>
   <body class="hold-transition login-page">
+  @backgroundNumber = @{((Math.random*4).intValue)+1}
+  <img src="/assets/dist/img/photo@{backgroundNumber}.png" style="position:fixed; top:0px; z-index:-1; min-width:100%; min-height:100%;-webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);">
     @if(error) {
       <div class="callout callout-danger">
         <h4>Authentication failed!</h4>
@@ -31,10 +37,10 @@
       </div>
     }
     <div class="login-box">
+      <div class="login-box-body">
       <div class="login-logo">
         <b>Issue Tracker</b>
       </div><!-- /.login-logo -->
-      <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
         <form id="loginform" method="post">
           <div class="form-group has-feedback">

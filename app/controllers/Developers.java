@@ -58,22 +58,13 @@ public class Developers extends Controller {
         return results[0];
     }
 
-    public static class IssueSaveRequest {
-        private Long id;
-        private String status;
-    }
-
-    public Result saveIssue() {
-    	IssueSaveRequest post = Json.fromJson(request().body().asJson(), IssueSaveRequest.class);
-		//change issue types to waiting approval
-
-        Result[] results = {badRequest()};
-
-        DSDB.withConnection(conn -> {
-            Issue p = Issue.loadById(conn, post.id);
-            p.setStatus(post.status);
-            Issue.update(conn, p);
-            results[0] = ok("Ok");
+    public Result changeIssueStatus(Long id) {
+        Result[] results = {ok("Bad")};
+        DSDB.withConnection(conn-> {
+            Issue toSave = Issue.loadById(conn, id);
+            toSave.setStatus("Waiting Approval");
+            Issue.update(conn, toSave);
+            results[0] =  ok("Ok");
         });
         return results[0];
     }

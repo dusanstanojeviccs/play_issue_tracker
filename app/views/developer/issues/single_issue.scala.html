@@ -6,16 +6,23 @@
 @main("Developer - Issue") {
 	@developer_navbar(Com.DEVELOPER_PAGE_NAMES(1))
 } {
-
-<div ng-controller="IssueController">
+<script>
+	var Routes = {
+		changeIssueStatus: "@controllers.routes.Developers.changeIssueStatus(issue.getId)"
+	};
+	var Preset = {
+		status: "@issue.getStatus"
+	};
+</script>
+<div ng-controller="SingleIssueController">
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
 	          <div class="box-issue">
 	            <div class="box-header">
 	            	<h3 class="box-title" style="float:left">@issue.getTitle</h3>
-	            	<div class="issue-status">@issue.getStatus</div>
-	            	<a class="issue-status" style="clear:right">Waiting approval</a>
+	            	<div class="issue-status" style="font-size: 16px;float: left;clear: left;padding-top: 10px;">{{status}}</div>
+	            	<a ng-if="status!='Waiting Approval'" class="issue-status btn btn-primary" style="clear:right" ng-click="changeIssueStatus()">Waiting Approval</a>
 	           		<span style="clear:left; float:left">#@issue.getId</span>
 	            </div>
 
@@ -25,12 +32,12 @@
 	          </div>
 
 	          	@issueResponseList.map { issueResponse  =>  
-	          	@if(issueResponse.getUserType.equals("Developer")) {   
-					<div class="callout callout-green-border">
-				}
-				@if(issueResponse.getUserType.equals("Tester")) {
-					<div class="callout callout-blue-border">
-				}
+		          	@if(issueResponse.getUserType.equals("Developer")) {   
+						<div class="callout callout-green-border">
+					}
+					@if(issueResponse.getUserType.equals("Tester")) {
+						<div class="callout callout-blue-border">
+					}
 						<div class="comm-time">@Com.formatTimestamp(issueResponse.getTimestamp)</div>
 			        	<h4>@issueResponse.getUser</h4>
 			        	<p>@issueResponse.getContent</p>
@@ -58,5 +65,5 @@
 } {
 	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
 } {
-	@*<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>*@
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/developer/single-issue.js")"></script>
 }("green")

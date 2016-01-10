@@ -6,17 +6,28 @@
 @main("QA - Issue") {
 	@qa_navbar(Com.QA_PAGE_NAMES(1))
 } {
-
-<div ng-controller="IssueController">
+<script>
+	var Routes = {
+		changeIssueStatus: "@controllers.routes.QAUsers.changeIssueStatus()"
+	};
+	var Preset = {
+		id:"@issue.getId",
+		status: "@issue.getStatus"
+	};
+</script>
+<div ng-controller="SingleIssueController">
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
 	          <div class="box-issue">
 	            <div class="box-header">
-	            	<h3 class="box-title"style="float:left">@issue.getTitle</h3>
-	            	<div class="issue-status">@issue.getStatus</div>
-	            	<a class="issue-status" style="clear:right">Waiting approval</a>
-	            	<span style="clear:left; float:left">#@issue.getId</span>
+	            	<h3 class="box-title" style="float:left">@issue.getTitle</h3>
+	            	<div class="issue-status" style="font-size: 16px;float: left;clear: left;padding-top: 10px;">{{status}}</div>
+	            	<div>
+	            	<a ng-if="status!='Solved'" class="issue-status btn btn-success" ng-click="solved()">Solved</a>
+	            	<a ng-if="status!='Not Solved'" class="issue-status btn btn-danger" ng-click="notSolved()">Not Solved</a>
+	            	</div>
+	           		<span style="clear:left; float:left">#@issue.getId</span>
 	            </div>
 
 	            <div class="box-body">
@@ -58,5 +69,5 @@
 } {
 	<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/style.min.css")">
 } {
-	@*<script type="text/javascript" src="@routes.Assets.versioned("javascripts/admin/projects.js")"></script>*@
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/qa/single-issue.js")"></script>
 }()

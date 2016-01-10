@@ -58,6 +58,23 @@ public class QAUsers extends Controller {
         return results[0];
     }
 
+    public static class IssueStatusChangeRequest {
+        public Long id;
+        public String newStatus;
+    }
+
+    public Result changeIssueStatus() {
+        IssueStatusChangeRequest post = Json.fromJson(request().body().asJson(), IssueStatusChangeRequest.class);
+        Result[] results = {ok("Bad")};
+        DSDB.withConnection(conn-> {
+            Issue toSave = Issue.loadById(conn, post.id);
+            toSave.setStatus(post.newStatus);
+            Issue.update(conn, toSave);
+            results[0] =  ok("Ok");
+        });
+        return results[0];
+    }
+
     public static class IssueSaveRequest {
         public Long id;
         public String title;

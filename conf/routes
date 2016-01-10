@@ -20,6 +20,8 @@ GET     /dev/projects                           controllers.Developers.viewProje
 GET     /dev/issues/:projectId                           controllers.Developers.viewIssues(projectId: Long)
 GET     /dev/issue/:projectId                           controllers.Developers.viewIssue(projectId: Long)
 POST     /dev/issues/add                          controllers.Developers.submitResponse()
+GET     /dev/issues/changestatus/:id                          controllers.Developers.changeIssueStatus(id: Long)
+
 
 # QA page
 GET     /qa/projects                           controllers.QAUsers.viewProjects()
@@ -27,6 +29,7 @@ GET     /qa/issues/:projectId                  controllers.QAUsers.viewIssues(pr
 GET     /qa/issue/:projectId                  controllers.QAUsers.viewIssue(projectId: Long)
 POST     /qa/issues                           controllers.QAUsers.saveIssue()
 POST     /qa/issues/add                     controllers.QAUsers.submitResponse()
+POST     /qa/issues/changestatus                          controllers.QAUsers.changeIssueStatus()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
