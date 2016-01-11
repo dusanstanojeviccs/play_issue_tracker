@@ -19,6 +19,7 @@ app.controller('ProjectController', function($scope, $http) {
 				$scope.errorMessage = "Could not save";
 				$scope.error = true;
             }
+            alert("Project has been added into database");
         }).error(function(data, status) {
 			$scope.errorMessage = "Could not save";
 			$scope.error = true;
@@ -28,7 +29,8 @@ app.controller('ProjectController', function($scope, $http) {
     $(function() {
 		$("body").on("click", "[data-add-project]", function() {
 			$scope.project = {
-				name: ""
+				name: "",
+				id:0
 			};
 			$scope.error = false;
 			$scope.$apply();

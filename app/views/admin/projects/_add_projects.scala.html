@@ -5,7 +5,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 ng-if="project.id!=0" class="modal-title">New Project</h4>
+        <h4 ng-if="project.id==0" class="modal-title">New Project</h4>
+        <h4 ng-if="project.id!=0" class="modal-title">Update Project</h4>
       </div>
       <div class="modal-body">
       
