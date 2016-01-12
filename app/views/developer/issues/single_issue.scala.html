@@ -6,6 +6,7 @@
 @main("Developer - Issue") {
 	@developer_navbar(Com.DEVELOPER_PAGE_NAMES(1))
 } {
+
 <script>
 	var Routes = {
 		changeIssueStatus: "@controllers.routes.Developers.changeIssueStatus(issue.getId)"
@@ -51,7 +52,7 @@
                 <div class="box-body pad">
                   <form method="POST" action="@controllers.routes.Developers.submitResponse()">
                   	<input type="hidden" value="@issue.getId" name="issueId">
-                    <textarea class="textarea col-md-12 form-control" placeholder="Place some text here" id="wysiwyg" name="comment" style="max-width: 100%;"></textarea>
+                    <textarea class="textarea col-md-12 form-control" placeholder="Place some text here" id="wysiwyg" name="comment" style="max-width: 100%;"></textarea> 
                     <div style="clear:both"></div>
                     <button class="btn btn-success pull-right" style="margin-top:10px" >Send</button>
                   </form>

@@ -40,7 +40,15 @@
 					    		<td data-postedBy>@fullissue.postedBy</td> 
 					    		<td data-title>@fullissue.getIssue.getTitle</td>
 					    		<td data-text>@fullissue.getIssue.getText</td>
-					    		<td data-status>@fullissue.getIssue.getStatus</td>
+					    		@if(fullissue.getIssue.getStatus.equals("Solved")) {
+					    		<td data-status style="color: green;">@fullissue.getIssue.getStatus</td>
+					    		} 
+					    		@if(fullissue.getIssue.getStatus.equals("Not Solved")){
+					    		<td data-status style="color: red;">@fullissue.getIssue.getStatus</td>
+					    		} 
+					    		@if(fullissue.getIssue.getStatus.equals("Waiting Approval")){
+					    		<td data-status style="color: blue;">@fullissue.getIssue.getStatus</td>
+					    		}
 					    	</tr>
 					    }
 					    </tbody>

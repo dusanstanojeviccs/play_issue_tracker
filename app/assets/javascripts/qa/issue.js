@@ -21,7 +21,7 @@ app.controller('IssueController', function($scope, $http) {
 				id: 0,
 				text: "",
 				projectId: projectId,
-				status: "Not solved"
+				status: "Not Solved"
 			};
 			$scope.$apply();
 		});

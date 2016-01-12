@@ -4,7 +4,7 @@ app.controller('SingleIssueController', function($scope, $http) {
     $scope.changeIssueStatus = function() {
         $http.get(Routes.changeIssueStatus).success(function(data, status) {
             if (data==="Ok") {
-				$scope.status = "Waiting Approval";				
+				$scope.status = "Waiting Approval";	
             } else {
 				$scope.error = true;
             }

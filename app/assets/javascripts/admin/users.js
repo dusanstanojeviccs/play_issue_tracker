@@ -35,6 +35,7 @@ app.controller('UserController', function($scope, $http) {
 				$scope.errorMessage = "Could not save"; 
 				$scope.error = true;
             }
+            alert("User has been added into database");
         }).error(function(data, status) {
 			$scope.errorMessage = "Could not save"; 
 			$scope.error = true;
