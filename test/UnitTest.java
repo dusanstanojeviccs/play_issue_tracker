@@ -15,6 +15,8 @@ import play.i18n.Lang;
 import play.libs.F;
 import play.libs.F.*;
 import play.twirl.api.Content;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import java.sql.*;
 import controllers.DSDB;
@@ -49,66 +51,190 @@ public class UnitTest {
     }
 
     @Test
-    public void testParseAdmin() {
+    public void testParseAdminId() {
         Admin testAdmin = new Admin();
         testAdmin.setId(1);
-        testAdmin.setUsername("AdminTest");
-        testAdmin.setPassword("AdminTest");
 
         assertEquals(1, testAdmin.getId());
-        assertEquals("AdminTest", testAdmin.getUsername());
-        assertEquals("AdminTest", testAdmin.getPassword());
     }
 
     @Test
-    public void testParseDeveloper() {
+    public void testParseAdminUsername() {
+        Admin testAdmin = new Admin();
+        testAdmin.setUsername("AdminTest");
+
+        assertEquals("AdminTest", testAdmin.getUsername());
+    }
+
+    @Test
+    public void testParseAdminPassword() {
+        Admin testAdmin = new Admin();
+        testAdmin.setPassword("AdminTest");
+
+        assertEquals("AdminTest", testAdmin.getPassword());
+    }
+
+
+
+    @Test
+    public void testParseDeveloperId() {
         Developer testDeveloper = new Developer();
         testDeveloper.setId(1);
-        testDeveloper.setUsername("DeveloperTest");
-        testDeveloper.setPassword("DeveloperTest");
 
         assertEquals(1, testDeveloper.getId());
+    }
+
+    @Test
+    public void testParseDeveloperUsername() {
+        Developer testDeveloper = new Developer();
+        testDeveloper.setUsername("DeveloperTest");
+
         assertEquals("DeveloperTest", testDeveloper.getUsername());
+    }
+
+    @Test
+    public void testParseDeveloperPassword() {
+        Developer testDeveloper = new Developer();
+        testDeveloper.setPassword("DeveloperTest");
+
         assertEquals("DeveloperTest", testDeveloper.getPassword());
     }
 
     @Test
-    public void testParseQAUser() {
+    public void testParseQAUserId() {
         QAUser testQAUser = new QAUser();
         testQAUser.setId(1);
-        testQAUser.setUsername("QAUserTest");
-        testQAUser.setPassword("QAUserTest");
 
         assertEquals(1, testQAUser.getId());
-        assertEquals("QAUserTest", testQAUser.getUsername());
-        assertEquals("QAUserTest", testQAUser.getPassword());
     }
 
     @Test
-    public void testParseProject() {
+    public void testParseQAUserUsername() {
+        QAUser testQAUser = new QAUser();
+        testQAUser.setUsername("QAUserTest");
+
+        assertEquals("QAUserTest", testQAUser.getUsername());
+    }
+
+    @Test
+    public void testParseQAUserPassword() {
+        QAUser testQAUser = new QAUser();
+        testQAUser.setPassword("QAUserTest");
+
+        assertEquals("QAUserTest", testQAUser.getPassword());
+    }
+
+
+    @Test
+    public void testParseProjectId() {
         Project testProject = new Project();
         testProject.setId(1);
-        testProject.setName("ProjectTest");
 
         assertEquals(1, testProject.getId());
+    }
+
+    @Test
+    public void testParseProjectName() {
+        Project testProject = new Project();
+        testProject.setName("ProjectTest");
+
         assertEquals("ProjectTest", testProject.getName());
     }
 
     @Test
-    public void testParseIssue() throws SQLException {
+    public void testParseIssueId() throws SQLException {
         Issue testIssue = new Issue();
         testIssue.setId(1);
-        testIssue.setProjectId(1);
-        testIssue.setPostedBy(1);
-        testIssue.setTitle("IssueTest");
-        testIssue.setText("IssueTextTest");
-        testIssue.setStatus("IssueStatusTest");
 
         assertEquals(1, testIssue.getId());
+    }
+
+    @Test
+    public void testParseIssueProjectId() throws SQLException {
+        Issue testIssue = new Issue();
+        testIssue.setProjectId(1);
+
         assertEquals(1, testIssue.getProjectId());
+    }
+
+    @Test
+    public void testParseIssuePostedBy() throws SQLException {
+        Issue testIssue = new Issue();
+        testIssue.setPostedBy(1);
+
         assertEquals(1, testIssue.getPostedBy());
+    }
+
+    @Test
+    public void testParseIssueTitle() throws SQLException {
+        Issue testIssue = new Issue();
+        testIssue.setTitle("IssueTest");
+
         assertEquals("IssueTest", testIssue.getTitle());
+    }
+
+    @Test
+    public void testParseIssueText() throws SQLException {
+        Issue testIssue = new Issue();
+        testIssue.setText("IssueTextTest");
+
         assertEquals("IssueTextTest", testIssue.getText());
+    }
+
+    @Test
+    public void testParseIssueStatus() throws SQLException {
+        Issue testIssue = new Issue();
+        testIssue.setStatus("IssueStatusTest");
+
         assertEquals("IssueStatusTest", testIssue.getStatus());
+    }
+
+    @Test
+    public void testParseIssueResponseId() throws SQLException {
+        IssueResponse testIssueResponse = new IssueResponse();
+        testIssueResponse.setId(1);
+
+        assertEquals(1, testIssueResponse.getId());
+    }
+
+    @Test
+    public void testParseIssueResponseUserId() throws SQLException {
+        IssueResponse testIssueResponse = new IssueResponse();
+        testIssueResponse.setUserId(1);
+
+        assertEquals(1, testIssueResponse.getUserId());
+    }
+
+    @Test
+    public void testParseIssueResponseContent() throws SQLException {
+        IssueResponse testIssueResponse = new IssueResponse();
+        testIssueResponse.setContent("ContentTest");
+        
+        assertEquals("ContentTest", testIssueResponse.getContent());
+    }
+
+    @Test
+    public void testParseIssueResponseUserType() {
+        IssueResponse testIssueResponse = new IssueResponse();
+        testIssueResponse.setUserType("TestUserType");
+
+        assertEquals("TestUserType", testIssueResponse.getUserType());
+    }
+
+    @Test
+    public void testParseIssueResponseTimestamp() {
+        IssueResponse testIssueResponse = new IssueResponse();
+        Timestamp testTimestamp = new Timestamp(123);
+        testIssueResponse.setTimestamp(testTimestamp);
+
+        assertEquals(testTimestamp, testIssueResponse.getTimestamp());
+    }
+
+    @Test public void testParseFullIssue() {
+        FullIssue testFullIssue = new FullIssue();
+        Issue testIssue = new Issue();
+        testFullIssue.setIssue(testIssue);
+        assertEquals(testIssue, testFullIssue.getIssue());
+
     }
 }
