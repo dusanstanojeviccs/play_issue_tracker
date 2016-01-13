@@ -1,4 +1,4 @@
-@(issue: Issue, issueResponseList: List[IssueResponse])
+@(issue: Issue, issueResponseList: List[IssueResponse], error: Boolean)
 
 @import views.html.developer.developer_navbar
 @import play.Play
@@ -15,15 +15,27 @@
 		status: "@issue.getStatus"
 	};
 </script>
+
 <div ng-controller="SingleIssueController">
+	 @if(error) {
+      <div class="callout callout-danger">
+        <h4>Empty message!</h4>
+        <p>You have submitted an empty message. Please try again.</p>
+      </div>
+    }
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
 	          <div class="box-issue">
 	            <div class="box-header">
 	            	<h3 class="box-title" style="float:left">@issue.getTitle</h3>
+	            @if(issue.getStatus.equals("Solved")){
 	            	<div class="issue-status" style="font-size: 16px;float: left;clear: left;padding-top: 10px;">{{status}}</div>
-	            	<a ng-if="status!='Waiting Approval'" class="issue-status btn btn-primary" style="clear:right" ng-click="changeIssueStatus()">Waiting Approval</a>
+	            	<a ng-if="status!='Waiting Approval'" class="issue-status btn btn-primary" style="clear:right; display:none;" ng-click="changeIssueStatus()">Waiting Approval</a>
+	            } else{
+	            <div class="issue-status" style="font-size: 16px;float: left;clear: left;padding-top: 10px;">{{status}}</div>
+	            <a ng-if="status!='Waiting Approval'" class="issue-status btn btn-primary" style="clear:right" ng-click="changeIssueStatus()" >Waiting Approval</a>
+	        }
 	           		<span style="clear:left; float:left">#@issue.getId</span>
 	            </div>
 

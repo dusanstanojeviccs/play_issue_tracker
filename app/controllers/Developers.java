@@ -32,14 +32,13 @@ public class Developers extends Controller {
         });
         return result[0];
 	}
-
-     public Result viewIssue(long id) {
+    Boolean error = true;
+    public Result viewIssue(long id, Boolean error ) {
         Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
             Issue issue = Issue.loadById(conn, id);
             List<IssueResponse> issueResponseList = IssueResponse.load(conn, id);
-            result[0] = ok(single_issue.render( 
-                issue, issueResponseList));
+            result[0] = ok(single_issue.render(issue, issueResponseList, error));
         });
         return result[0];
     }
@@ -47,14 +46,23 @@ public class Developers extends Controller {
     public Result submitResponse() {
         Result[] results = {badRequest()};
         
+        String com = "comment";
         DynamicForm form = Form.form().bindFromRequest();
-
+        if(form.get(com).length() < 2){
+       // results[0] = ok(single_issue.render(issue, issueResponseList, error));
+           DSDB.withConnection(conn-> {
+            long issueId = Long.parseLong(form.get("issueId"));
+            //Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get(com), new Timestamp(new Date().getTime()));
+            results[0] =  redirect(controllers.routes.Developers.viewIssue(issueId, error));
+        });
+        }
+        else {
         DSDB.withConnection(conn-> {
             long issueId = Long.parseLong(form.get("issueId"));
-            Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get("comment"), new Timestamp(new Date().getTime()));
-            results[0] =  redirect(controllers.routes.Developers.viewIssue(issueId));
+            Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get(com), new Timestamp(new Date().getTime()));
+            results[0] =  redirect(controllers.routes.Developers.viewIssue(issueId, !error));
         });
-
+        }
         return results[0];
     }
 

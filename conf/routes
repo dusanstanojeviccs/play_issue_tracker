@@ -18,7 +18,7 @@ POST 	 /admin/issues 						controllers.Admins.saveIssue()
 # Developer page
 GET     /dev/projects                           controllers.Developers.viewProjects()
 GET     /dev/issues/:projectId                           controllers.Developers.viewIssues(projectId: Long)
-GET     /dev/issue/:projectId                           controllers.Developers.viewIssue(projectId: Long)
+GET     /dev/issue/:projectId                           controllers.Developers.viewIssue(projectId: Long, error:Boolean)
 POST     /dev/issues/add                          controllers.Developers.submitResponse()
 GET     /dev/issues/changestatus/:id                          controllers.Developers.changeIssueStatus(id: Long)
 
@@ -26,7 +26,7 @@ GET     /dev/issues/changestatus/:id                          controllers.Develo
 # QA page
 GET     /qa/projects                           controllers.QAUsers.viewProjects()
 GET     /qa/issues/:projectId                  controllers.QAUsers.viewIssues(projectId: Long)
-GET     /qa/issue/:projectId                  controllers.QAUsers.viewIssue(projectId: Long)
+GET     /qa/issue/:projectId                  controllers.QAUsers.viewIssue(projectId: Long, error:Boolean)
 POST     /qa/issues                           controllers.QAUsers.saveIssue()
 POST     /qa/issues/add                     controllers.QAUsers.submitResponse()
 POST     /qa/issues/changestatus                          controllers.QAUsers.changeIssueStatus()

@@ -34,13 +34,13 @@ public class QAUsers extends Controller {
         return result[0];
     }
 
-	 public Result viewIssue(long id) {
+	 public Result viewIssue(long id, Boolean error) {
         Result[] result = {badRequest()};
         DSDB.withConnection(conn -> {
             Issue issue = Issue.loadById(conn, id);
             List<IssueResponse> issueResponseList = IssueResponse.load(conn, id);
             result[0] = ok(single_issue.render( 
-                issue, issueResponseList));
+                issue, issueResponseList, error));
         });
         return result[0];
     }
@@ -49,12 +49,19 @@ public class QAUsers extends Controller {
         Result[] results = {badRequest()};
         
         DynamicForm form = Form.form().bindFromRequest();
-
-        DSDB.withConnection(conn-> {
-            long issueId = Long.parseLong(form.get("issueId"));
-            Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get("comment"), new Timestamp(new Date().getTime()));
-            results[0] =  redirect(controllers.routes.QAUsers.viewIssue(issueId));
-        });
+        if(form.get("comment").length() < 2){
+            DSDB.withConnection(conn-> {
+                long issueId = Long.parseLong(form.get("issueId"));
+                results[0] =  redirect(controllers.routes.QAUsers.viewIssue(issueId, true));
+            });
+        }
+        else{
+            DSDB.withConnection(conn-> {
+                long issueId = Long.parseLong(form.get("issueId"));
+                Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get("comment"), new Timestamp(new Date().getTime()));
+                results[0] =  redirect(controllers.routes.QAUsers.viewIssue(issueId, false));
+            });
+        }
         return results[0];
     }
 

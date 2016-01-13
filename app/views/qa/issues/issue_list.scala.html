@@ -37,7 +37,7 @@
 						</thead>
 						<tbody>
 					    @for(fullissue <- issueList) {
-					    	<tr data-id="@fullissue.getIssue.getId" data-toggle="modal" data-target="#add-issue-modal" data-add-project onclick="window.location='@controllers.routes.QAUsers.viewIssue(fullissue.getIssue.getId)'">
+					    	<tr data-id="@fullissue.getIssue.getId" data-toggle="modal" data-target="#add-issue-modal" data-add-project onclick="window.location='@controllers.routes.QAUsers.viewIssue(fullissue.getIssue.getId, false)'">
 					    		<td data-id>@fullissue.getIssue.getId</td>
 					    		<td data-postedBy>@fullissue.postedBy</td> 
 					    		<td data-title>@fullissue.getIssue.getTitle</td>
