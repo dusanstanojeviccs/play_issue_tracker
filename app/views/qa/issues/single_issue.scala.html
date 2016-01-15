@@ -14,12 +14,12 @@
 		id:"@issue.getId",
 		status: "@issue.getStatus"
 	};
-</script>
+</script>	
 <div ng-controller="SingleIssueController">
 	@if(error) {
       <div class="callout callout-danger">
-        <h4>Empty message!</h4>
-        <p>You have submitted an empty message. Please try again.</p>
+        <h4>Message too short!</h4>
+        <p>You have submitted an empty or a short message. Please try again.</p>
       </div>
     }
 	<section class="content">

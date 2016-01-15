@@ -49,11 +49,8 @@ public class Developers extends Controller {
         String com = "comment";
         DynamicForm form = Form.form().bindFromRequest();
         if(form.get(com).length() < 2){
-       // results[0] = ok(single_issue.render(issue, issueResponseList, error));
-           DSDB.withConnection(conn-> {
-            long issueId = Long.parseLong(form.get("issueId"));
-            //Issue.loadById(conn, issueId).insertResponse(conn, Com.getLoggedInUserId(), form.get(com), new Timestamp(new Date().getTime()));
-            results[0] =  redirect(controllers.routes.Developers.viewIssue(issueId, error));
+        DSDB.withConnection(conn-> {
+            long issueId = Long.parseLong(form.get("issueId"));results[0] =  redirect(controllers.routes.Developers.viewIssue(issueId, error));
         });
         }
         else {

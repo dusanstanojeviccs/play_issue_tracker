@@ -37,6 +37,7 @@ public class Issue {
 
         return issueList;
 	}
+
     public static Issue loadById(Connection conn, long id) throws SQLException {
         String query = "SELECT * FROM issues WHERE id=?";
 
@@ -89,7 +90,6 @@ public class Issue {
 
     public static void update(Connection conn, Issue issue) throws SQLException {
         String query = "UPDATE `issues` SET `posted_by`=?, `title`=?, `text`=?, `status`=?, project_id=? WHERE id = ?";
-
 
         PreparedStatement statement = conn.prepareStatement(query);
 
