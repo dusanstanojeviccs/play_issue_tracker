@@ -38,7 +38,7 @@ public class Developers extends Controller {
         DSDB.withConnection(conn -> {
             Issue issue = Issue.loadById(conn, id);
             List<IssueResponse> issueResponseList = IssueResponse.load(conn, id);
-            result[0] = ok(single_issue.render(issue, issueResponseList, error));
+            result[0] = ok(single_issue.render(issue, issueResponseList, error)).as("text/html");
         });
         return result[0];
     }

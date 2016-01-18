@@ -22,6 +22,7 @@ public class Application extends Controller {
     }
 
     public Result login() {
+        session().clear();
     	Result[] result = {badRequest()};
     	DynamicForm form = Form.form().bindFromRequest();
 

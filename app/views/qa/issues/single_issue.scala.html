@@ -37,7 +37,7 @@
 	            </div>
 
 	            <div class="box-body">
-	                <div>@issue.getText</div>
+	                <div>@Html(issue.getText)</div>
 	            </div>
 	          </div>
 
@@ -50,7 +50,7 @@
 				}
 						<div class="comm-time">@Com.formatTimestamp(issueResponse.getTimestamp)</div>
 			        	<h4>@issueResponse.getUser</h4>
-			        	<p>@issueResponse.getContent</p>
+			        	<p>@Html(issueResponse.getContent)</p>
 			    	</div>
 				}  	
 

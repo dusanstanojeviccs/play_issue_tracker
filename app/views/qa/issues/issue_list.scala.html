@@ -41,7 +41,7 @@
 					    		<td data-id>@fullissue.getIssue.getId</td>
 					    		<td data-postedBy>@fullissue.postedBy</td> 
 					    		<td data-title>@fullissue.getIssue.getTitle</td>
-					    		<td data-text>@fullissue.getIssue.getText</td>
+					    		<td data-text>@Html(fullissue.getIssue.getText)</td>
 					    		@if(fullissue.getIssue.getStatus.equals("Solved")) {
 					    		<td data-status style="color: green;">@fullissue.getIssue.getStatus</td>
 					    		} 

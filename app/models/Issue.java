@@ -12,12 +12,12 @@ public class Issue {
 	private String title;
 	private String text;
 	private String status;
-
+    
 	public void parse(ResultSet rs) throws SQLException {
         this.id = rs.getLong("id");
         this.postedBy = rs.getLong("posted_by");
-        this.title = rs.getString("title");
-        this.text = rs.getString("text");
+        this.title = rs.getString("title").replace("\n", "<br />");
+        this.text = rs.getString("text").replace("\n", "<br />");
         this.status = rs.getString("status");
         this.projectId = rs.getLong("project_id");
     }

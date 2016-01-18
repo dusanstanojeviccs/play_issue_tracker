@@ -17,7 +17,7 @@ public class IssueResponse {
 	public void parse(ResultSet rs) throws SQLException {
         this.id = rs.getLong("id");
         this.userId = rs.getLong("user_id");
-        this.content = rs.getString("content");
+        this.content = rs.getString("content").replace("\n", "<br />");
         this.timestamp = rs.getTimestamp("date_added");
         this.user = rs.getString("username");
         this.userType = rs.getString("type");

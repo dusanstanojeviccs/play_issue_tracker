@@ -15,16 +15,6 @@
 		status: "@issue.getStatus"
 	};
 
-	/*var app = angular.module("ap",[]);
-	app.controller("con",function($scope){
-	  $scope.class = "red";
-	  $scope.changeClass = function(){
-	    if ($scope.class === "red")
-	      $scope.class = "blue";
-	    else
-	      $scope.class = "red";
-	  };
-	});                                           NG-CLICK mi treba 2x      */
 </script>
 
 <div ng-controller="SingleIssueController">
@@ -51,7 +41,7 @@
 	            </div>
 
 	            <div class="box-body">
-	                <div>@issue.getText</div>
+	                <div>@Html(issue.getText)</div>
 	            </div>
 	          </div>
 
@@ -64,7 +54,7 @@
 					}
 						<div class="comm-time">@Com.formatTimestamp(issueResponse.getTimestamp)</div>
 			        	<h4>@issueResponse.getUser</h4>
-			        	<p>@issueResponse.getContent</p>
+			        	<p>@Html(issueResponse.getContent)</p>
 			    	</div>
 				}
 
