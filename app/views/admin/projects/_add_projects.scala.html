@@ -3,28 +3,31 @@
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 ng-if="project.id==0" class="modal-title">New Project</h4>
-        <h4 ng-if="project.id!=0" class="modal-title">Update Project</h4>
-      </div>
-      <div class="modal-body">
-      
-      <div ng-show="error" class="alert alert-danger">${errorMessage}</div>
+      <form name="myForm">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 ng-if="project.id==0" class="modal-title">New Project</h4>
+          <h4 ng-if="project.id!=0" class="modal-title">Update Project</h4>
+        </div>
+        <div class="modal-body">
+        
+        <div ng-show="error" class="alert alert-danger">${errorMessage}</div>
 
-        <form>
-        	<div class="form-group">
-        		<div class="">
-        			<label>Name</label>
-        			<input type="text" ng-model="project.name" class="form-control">
-        		</div>
-        	</div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" ng-click="saveProject()">Save</button>
-      </div>
+          <form>
+          	<div class="form-group">
+          		<div class="">
+          			<label>Name</label>
+          			<input name="name" type="text" ng-model="project.name" class="form-control" required>
+                <span ng-show="myForm.name.$touched && myForm.name.$invalid" style="color:red;">Name is required.</span>
+          		</div>
+          	</div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" ng-click="saveProject()" ng-disabled ="myForm.name.$invalid">Save</button>
+        </div>
+      </form>
     </div>
 
   </div>
