@@ -8,7 +8,7 @@ public class FullIssue {
 	public Issue issue;
 	public String projectName;
 	public String postedBy;
-	public static Long id;
+	public Long id;
 	public void parse(ResultSet rs) throws SQLException {
 		issue = new Issue();
 		issue.parse(rs);
